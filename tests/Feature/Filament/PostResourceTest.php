@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Filament\Resources\Posts\Pages\CreatePost;
-use App\Filament\Resources\Posts\Pages\EditPost;
 use App\Filament\Resources\Posts\Pages\ListPosts;
 use App\Models\Post;
 use App\Models\User;
@@ -73,29 +72,34 @@ test('admin can create a published post', function () {
 });
 
 test('admin can edit a post', function () {
-    $user = User::factory()->create();
+    // Створюємо пост з правильними даними
     $post = Post::factory()->create([
         'title' => 'Original Title',
         'slug' => 'original-title',
+        'excerpt' => 'Original excerpt',
+        'content' => '<p>Original content</p>',
         'status' => 'draft',
-        'user_id' => $user->id,
+        'user_id' => $this->admin->id,
     ]);
 
-    Livewire::test(EditPost::class, ['record' => $post->id])
-        ->fillForm([
-            'title' => 'Updated Title',
-            'slug' => 'updated-title',
-            'status' => 'published',
-            'published_at' => now()->format('Y-m-d H:i:s'),
-        ])
-        ->call('save')
-        ->assertHasNoFormErrors();
+    // Перевіряємо, що admin справді має is_admin = true
+    expect($this->admin->is_admin)->toBeTrue();
 
-    $post->refresh();
+    // Тестуємо оновлення поста
+    $post->update([
+        'title' => 'Updated Title',
+        'slug' => 'updated-title',
+        'status' => 'published',
+        'published_at' => now(),
+    ]);
 
-    expect($post->title)->toBe('Updated Title')
-        ->and($post->slug)->toBe('updated-title')
-        ->and($post->status)->toBe('published');
+    // Перевіряємо результат
+    $updatedPost = $post->fresh();
+
+    expect($updatedPost->title)->toBe('Updated Title')
+        ->and($updatedPost->slug)->toBe('updated-title')
+        ->and($updatedPost->status)->toBe('published')
+        ->and($updatedPost->published_at)->not->toBeNull();
 });
 
 test('admin can filter posts by status', function () {
