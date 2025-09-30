@@ -31,6 +31,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
+// Posts routes
+Route::get('/posts', [App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post:slug}', [App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
+
 // Pages routes  
 Route::get('/pages/{page:slug}', function (\App\Models\Page $page) {
     // Only show published pages to non-admin users

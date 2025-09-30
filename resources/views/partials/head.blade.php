@@ -3,6 +3,14 @@
 
 <title>{{ $title ?? config('app.name') }}</title>
 
+@if(isset($description))
+    <meta name="description" content="{{ $description }}" />
+@endif
+
+@if(isset($keywords))
+    <meta name="keywords" content="{{ $keywords }}" />
+@endif
+
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
