@@ -31,4 +31,14 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
+// Pages routes  
+Route::get('/pages/{page:slug}', function (\App\Models\Page $page) {
+    // Only show published pages to non-admin users
+    if (! $page->isPublished() && ! (auth()->check() && auth()->user()->is_admin)) {
+        abort(404);
+    }
+
+    return view('pages.show', compact('page'));
+})->name('pages.show');
+
 require __DIR__.'/auth.php';

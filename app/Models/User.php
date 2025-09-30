@@ -77,11 +77,20 @@ class User extends Authenticatable
     public function getAvatarUrl(): string
     {
         if ($this->avatar) {
-            return asset('storage/' . $this->avatar);
+            return asset('storage/'.$this->avatar);
         }
 
         // Fallback to Gravatar
         $hash = md5(strtolower(trim($this->email)));
+
         return "https://www.gravatar.com/avatar/{$hash}?d=mp&s=200";
+    }
+
+    /**
+     * Get the pages authored by this user.
+     */
+    public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Page::class, 'author_id');
     }
 }
