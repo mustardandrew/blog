@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -99,6 +100,20 @@ class PostForm
                             ])
                             ->directory('posts/featured-images')
                             ->visibility('private'),
+                    ]),
+
+                Section::make('Categories')
+                    ->schema([
+                        CheckboxList::make('categories')
+                            ->relationship('categories', 'name')
+                            ->options(function () {
+                                return \App\Models\Category::active()
+                                    ->orderBy('sort_order')
+                                    ->pluck('name', 'id');
+                            })
+                            ->columns(2)
+                            ->searchable()
+                            ->helperText('Select categories for this post.'),
                     ]),
 
                 Section::make('SEO')
