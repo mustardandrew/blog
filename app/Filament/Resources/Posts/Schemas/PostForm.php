@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -10,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
@@ -114,6 +116,37 @@ class PostForm
                             ->columns(2)
                             ->searchable()
                             ->helperText('Select categories for this post.'),
+                    ]),
+
+                Section::make('Tags')
+                    ->schema([
+                        Select::make('tags')
+                            ->relationship('tags', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (callable $set, $state) {
+                                        $set('slug', Str::slug($state));
+                                    }),
+                                TextInput::make('slug')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique('tags', 'slug')
+                                    ->rules(['alpha_dash']),
+                                ColorPicker::make('color')
+                                    ->default('#6366f1'),
+                                Toggle::make('is_featured')
+                                    ->label('Featured Tag'),
+                            ])
+                            ->createOptionUsing(function (array $data) {
+                                return \App\Models\Tag::create($data)->id;
+                            })
+                            ->helperText('Select existing tags or create new ones.'),
                     ]),
 
                 Section::make('SEO')
