@@ -15,10 +15,10 @@
             <div class="relative px-8 py-16 sm:px-12 sm:py-20 text-center">
                 <div class="mx-auto max-w-4xl">
                     <flux:heading size="xl" class="mb-6 text-4xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 dark:from-amber-400 dark:via-orange-400 dark:to-yellow-400 bg-clip-text text-transparent font-bold">
-                        Ласкаво просимо до LitBlog
+                        Welcome to LitBlog
                     </flux:heading>
                     <flux:text class="text-xl leading-relaxed text-zinc-700 dark:text-zinc-300 max-w-3xl mx-auto mb-8">
-                        Відкрийте для себе захоплюючий світ літератури через мої особисті враження від прочитаних книг. Діліться думками про улюблені твори та знаходьте нові літературні скарби.
+                        Discover the captivating world of literature through my personal impressions of books I've read. Share thoughts about your favorite works and find new literary treasures.
                     </flux:text>
                     
                     <!-- Call to action buttons -->
@@ -29,14 +29,14 @@
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
-                            Читати рецензії
+                            Read Reviews
                         </a>
                         <a href="#latest-posts"
                            class="inline-flex items-center px-6 py-3 border-2 border-amber-300 dark:border-amber-600 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 font-semibold rounded-lg transition-all duration-200">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
                             </svg>
-                            Останні рецензії
+                            Latest Reviews
                         </a>
                     </div>
                 </div>
@@ -47,9 +47,9 @@
         @if($posts->count() > 0)
             <div id="latest-posts" class="mb-8">
                 <div class="flex items-center justify-between mb-6">
-                    <flux:heading size="xl">Останні рецензії</flux:heading>
+                    <flux:heading size="xl">Latest Reviews</flux:heading>
                     <flux:button href="{{ route('posts.index') }}" variant="outline" wire:navigate>
-                        Всі рецензії
+                        All Reviews
                     </flux:button>
                 </div>
 
