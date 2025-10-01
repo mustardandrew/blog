@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 
 test('guests can view published posts index', function () {
@@ -106,14 +107,17 @@ test('post displays featured image when available', function () {
 });
 
 test('post displays tags when available', function () {
-    $post = Post::factory()->published()->create([
-        'meta_keywords' => ['Laravel', 'PHP', 'Web Development'],
-    ]);
+    // Create tags with specific names
+    $laravel = Tag::create(['name' => 'Laravel', 'slug' => 'laravel']);
+    $php = Tag::create(['name' => 'PHP', 'slug' => 'php']);
+    $webdev = Tag::create(['name' => 'Web Development', 'slug' => 'web-development']);
+    
+    $post = Post::factory()->published()->create();
+    $post->tags()->attach([$laravel->id, $php->id, $webdev->id]);
 
     $response = $this->get(route('posts.show', $post->slug));
 
     $response->assertStatus(200)
-        ->assertSee('Tags')  // New heading text
         ->assertSee('Laravel')
         ->assertSee('PHP')
         ->assertSee('Web Development');

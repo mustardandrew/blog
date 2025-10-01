@@ -68,80 +68,6 @@
                         {!! $post->content !!}
                     </div>
                 </article>
-
-                <!-- Tags Section -->
-                @if($post->tags->count() > 0 || $post->categories->count() > 0)
-                    <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 mb-8">
-                        @if($post->categories->count() > 0)
-                            <div class="mb-6">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mr-3">
-                                        <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                        </svg>
-                                    </div>
-                                    <flux:heading size="lg">Categories</flux:heading>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    @foreach($post->categories as $category)
-                                        <a href="{{ route('posts.index', ['category' => $category->slug]) }}" 
-                                           class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800 rounded-full text-sm font-medium text-green-700 dark:text-green-300 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-800/30 dark:hover:to-emerald-800/30 transition-all duration-200 hover:shadow-md">
-                                            @if($category->color)
-                                                <span class="w-2 h-2 rounded-full mr-2" style="background-color: {{ $category->color }}"></span>
-                                            @endif
-                                            {{ $category->name }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($post->tags->count() > 0)
-                            <div class="flex items-center mb-4">
-                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mr-3">
-                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                    </svg>
-                                </div>
-                                <flux:heading size="lg">Tags</flux:heading>
-                            </div>
-                            <div class="flex flex-wrap gap-3">
-                                @foreach($post->tags as $tag)
-                                    <a href="{{ route('posts.index', ['tag' => $tag->slug]) }}" 
-                                       class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800 rounded-full text-sm font-medium text-blue-700 dark:text-blue-300 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/30 dark:hover:to-indigo-800/30 transition-all duration-200 hover:shadow-md">
-                                        @if($tag->color)
-                                            <span class="w-2 h-2 rounded-full mr-2" style="background-color: {{ $tag->color }}"></span>
-                                        @endif
-                                        {{ $tag->name }}
-                                        @if($tag->usage_count && $tag->usage_count > 1)
-                                            <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300 rounded-full">
-                                                {{ $tag->usage_count }}
-                                            </span>
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-                @elseif($post->meta_keywords && count($post->meta_keywords) > 0)
-                    <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 mb-8">
-                        <div class="flex items-center mb-4">
-                            <div class="w-8 h-8 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center mr-3">
-                                <svg class="w-4 h-4 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                </svg>
-                            </div>
-                            <flux:heading size="lg">Keywords</flux:heading>
-                        </div>
-                        <div class="flex flex-wrap gap-3">
-                            @foreach($post->meta_keywords as $keyword)
-                                <flux:badge variant="outline" class="px-3 py-1 text-sm">
-                                    {{ $keyword }}
-                                </flux:badge>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
             </div>
 
             <!-- Sidebar -->
@@ -207,12 +133,12 @@
                                         <div class="text-sm text-zinc-500 dark:text-zinc-400 mb-2">Categories</div>
                                         <div class="flex flex-wrap gap-1">
                                             @foreach($post->categories as $category)
-                                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md">
+                                                <a href="{{ route('posts.index', ['category' => $category->slug]) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md hover:bg-green-100 dark:hover:bg-green-800/30 transition-colors">
                                                     @if($category->color)
                                                         <span class="w-1.5 h-1.5 rounded-full mr-1" style="background-color: {{ $category->color }}"></span>
                                                     @endif
                                                     {{ $category->name }}
-                                                </span>
+                                                </a>
                                             @endforeach
                                         </div>
                                     </div>
@@ -229,19 +155,14 @@
                                     <div class="flex-1">
                                         <div class="text-sm text-zinc-500 dark:text-zinc-400 mb-2">Tags</div>
                                         <div class="flex flex-wrap gap-1">
-                                            @foreach($post->tags->take(3) as $tag)
-                                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-md">
+                                            @foreach($post->tags as $tag)
+                                                <a href="{{ route('posts.index', ['tag' => $tag->slug]) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-md hover:bg-purple-100 dark:hover:bg-purple-800/30 transition-colors">
                                                     @if($tag->color)
                                                         <span class="w-1.5 h-1.5 rounded-full mr-1" style="background-color: {{ $tag->color }}"></span>
                                                     @endif
                                                     {{ $tag->name }}
-                                                </span>
+                                                </a>
                                             @endforeach
-                                            @if($post->tags->count() > 3)
-                                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">
-                                                    +{{ $post->tags->count() - 3 }} more
-                                                </span>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
