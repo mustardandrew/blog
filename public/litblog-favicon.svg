@@ -1,0 +1,6 @@
+<!-- Simple Book Favicon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#6366f1" rx="6"/>
+  <path d="M8 8 L16 8 L16 24 L8 24 Z" fill="white"/>
+  <path d="M16 8 L24 8 L24 24 L16 24 Z" fill="#f59e0b"/>
+</svg>
