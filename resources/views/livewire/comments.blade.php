@@ -93,14 +93,59 @@
                     </div>
                     
                     <div class="flex-1 min-w-0">
-                        <div class="bg-zinc-50 dark:bg-zinc-800 rounded-lg p-4">
+                        <div class="bg-zinc-50 dark:bg-zinc-800 rounded-lg p-4 {{ !$comment->is_approved ? 'border-2 border-yellow-400 dark:border-yellow-600' : '' }}">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-semibold text-zinc-900 dark:text-zinc-100">
-                                    {{ $comment->user->name ?? $comment->author_name }}
-                                </h4>
-                                <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                                    {{ $comment->created_at->diffForHumans() }}
-                                </span>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-semibold text-zinc-900 dark:text-zinc-100">
+                                        {{ $comment->user->name ?? $comment->author_name }}
+                                    </h4>
+                                    @if (!$comment->is_approved)
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                            Pending Approval
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                                        {{ $comment->created_at->diffForHumans() }}
+                                    </span>
+                                    
+                                    @auth
+                                        @if (auth()->user()->is_admin)
+                                            <!-- Admin Actions -->
+                                            <div class="flex items-center gap-1 ml-2">
+                                                <button 
+                                                    wire:click="toggleApproval({{ $comment->id }})"
+                                                    class="p-1 text-xs rounded {{ $comment->is_approved ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800' }} transition-colors"
+                                                    title="{{ $comment->is_approved ? 'Unapprove' : 'Approve' }}"
+                                                >
+                                                    @if ($comment->is_approved)
+                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    @else
+                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    @endif
+                                                </button>
+                                                
+                                                <button 
+                                                    wire:click="deleteComment({{ $comment->id }})"
+                                                    wire:confirm="Are you sure you want to delete this comment and all its replies?"
+                                                    class="p-1 text-xs text-red-600 hover:text-red-800 transition-colors"
+                                                    title="Delete Comment"
+                                                >
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endauth
+                                </div>
                             </div>
                             <p class="text-zinc-700 dark:text-zinc-300 leading-relaxed">
                                 {{ $comment->content }}
@@ -132,14 +177,59 @@
                                         </div>
                                         
                                         <div class="flex-1 min-w-0">
-                                            <div class="bg-zinc-50 dark:bg-zinc-800 rounded-lg p-4">
+                                            <div class="bg-zinc-50 dark:bg-zinc-800 rounded-lg p-4 {{ !$reply->is_approved ? 'border-2 border-yellow-400 dark:border-yellow-600' : '' }}">
                                                 <div class="flex items-center justify-between mb-2">
-                                                    <h5 class="font-semibold text-zinc-900 dark:text-zinc-100">
-                                                        {{ $reply->user->name ?? $reply->author_name }}
-                                                    </h5>
-                                                    <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                                                        {{ $reply->created_at->diffForHumans() }}
-                                                    </span>
+                                                    <div class="flex items-center gap-2">
+                                                        <h5 class="font-semibold text-zinc-900 dark:text-zinc-100">
+                                                            {{ $reply->user->name ?? $reply->author_name }}
+                                                        </h5>
+                                                        @if (!$reply->is_approved)
+                                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                                                Pending Approval
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                                                            {{ $reply->created_at->diffForHumans() }}
+                                                        </span>
+                                                        
+                                                        @auth
+                                                            @if (auth()->user()->is_admin)
+                                                                <!-- Admin Actions for Replies -->
+                                                                <div class="flex items-center gap-1 ml-2">
+                                                                    <button 
+                                                                        wire:click="toggleApproval({{ $reply->id }})"
+                                                                        class="p-1 text-xs rounded {{ $reply->is_approved ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800' }} transition-colors"
+                                                                        title="{{ $reply->is_approved ? 'Unapprove' : 'Approve' }}"
+                                                                    >
+                                                                        @if ($reply->is_approved)
+                                                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                                                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                                                            </svg>
+                                                                        @else
+                                                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                                            </svg>
+                                                                        @endif
+                                                                    </button>
+                                                                    
+                                                                    <button 
+                                                                        wire:click="deleteComment({{ $reply->id }})"
+                                                                        wire:confirm="Are you sure you want to delete this reply?"
+                                                                        class="p-1 text-xs text-red-600 hover:text-red-800 transition-colors"
+                                                                        title="Delete Reply"
+                                                                    >
+                                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                                            <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            @endif
+                                                        @endauth
+                                                    </div>
                                                 </div>
                                                 <p class="text-zinc-700 dark:text-zinc-300 leading-relaxed">
                                                     {{ $reply->content }}

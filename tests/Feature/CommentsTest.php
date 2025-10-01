@@ -112,3 +112,52 @@ it('creates replies only at first level', function () {
     // Should NOT be a reply to the first reply
     expect(Comment::where('parent_id', $firstReply->id)->exists())->toBeFalse();
 });
+
+it('allows admins to delete comments', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $post = Post::factory()->published()->create();
+    $comment = Comment::factory()->create([
+        'post_id' => $post->id,
+        'is_approved' => true,
+    ]);
+
+    $this->actingAs($admin);
+
+    Livewire::test('comments', ['post' => $post])
+        ->call('deleteComment', $comment->id)
+        ->assertHasNoErrors();
+
+    expect(Comment::find($comment->id))->toBeNull();
+});
+
+it('allows admins to toggle comment approval', function () {
+    $admin = User::factory()->create(['is_admin' => true]);
+    $post = Post::factory()->published()->create();
+    $comment = Comment::factory()->create([
+        'post_id' => $post->id,
+        'is_approved' => true,
+    ]);
+
+    $this->actingAs($admin);
+
+    Livewire::test('comments', ['post' => $post])
+        ->call('toggleApproval', $comment->id)
+        ->assertHasNoErrors();
+
+    expect($comment->fresh()->is_approved)->toBeFalse();
+});
+
+it('prevents non-admins from admin actions', function () {
+    $user = User::factory()->create(['is_admin' => false]);
+    $post = Post::factory()->published()->create();
+    $comment = Comment::factory()->create([
+        'post_id' => $post->id,
+        'is_approved' => true,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test('comments', ['post' => $post])
+        ->call('deleteComment', $comment->id)
+        ->assertForbidden();
+});

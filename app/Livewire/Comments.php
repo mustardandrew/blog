@@ -52,7 +52,7 @@ class Comments extends Component
             'author_name' => $this->author_name,
             'author_email' => $this->author_email,
             'parent_id' => $parentId,
-            'is_approved' => true, // Auto-approve for now
+            'is_approved' => true, // Auto-approve by default
         ]);
 
         if (auth()->check()) {
@@ -84,13 +84,55 @@ class Comments extends Component
         $this->reset(['reply_to', 'showReplyForm', 'content']);
     }
 
+    public function deleteComment(int $commentId): void
+    {
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403);
+        }
+
+        $comment = Comment::findOrFail($commentId);
+        
+        // Delete all replies first
+        $comment->replies()->delete();
+        
+        // Delete the comment
+        $comment->delete();
+
+        session()->flash('message', 'Comment deleted successfully!');
+    }
+
+    public function toggleApproval(int $commentId): void
+    {
+        if (!auth()->check() || !auth()->user()->is_admin) {
+            abort(403);
+        }
+
+        $comment = Comment::findOrFail($commentId);
+        $comment->update(['is_approved' => !$comment->is_approved]);
+
+        $status = $comment->is_approved ? 'approved' : 'unapproved';
+        session()->flash('message', "Comment {$status} successfully!");
+    }
+
     public function render()
     {
-        $comments = $this->post->approvedComments()
+        $isAdmin = auth()->check() && auth()->user()->is_admin;
+        
+        $query = $this->post->comments()
             ->whereNull('parent_id')
-            ->with(['replies.user', 'user'])
-            ->latest()
-            ->get();
+            ->with(['replies' => function($q) use ($isAdmin) {
+                if (!$isAdmin) {
+                    $q->where('is_approved', true);
+                }
+                $q->with('user');
+            }, 'user']);
+
+        // Show all comments for admins, only approved for others
+        if (!$isAdmin) {
+            $query->where('is_approved', true);
+        }
+
+        $comments = $query->latest()->get();
 
         return view('livewire.comments', compact('comments'));
     }
