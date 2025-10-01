@@ -12,7 +12,7 @@ class RefreshTestData extends Command
      *
      * @var string
      */
-    protected $signature = 'app:refresh-test-data {--fresh : Drop all tables and migrate from scratch}';
+    protected $signature = 'app:refresh-test-data {--fresh : Drop all tables and migrate from scratch} {--clean-images : Clean and regenerate test images}';
 
     /**
      * The console command description.
@@ -27,23 +27,27 @@ class RefreshTestData extends Command
     public function handle(): int
     {
         $this->info('🚀 Refreshing test data...');
-        
+
         if ($this->option('fresh')) {
             $this->info('📝 Running fresh migrations...');
             Artisan::call('migrate:fresh');
             $this->line(Artisan::output());
         }
-        
+
         $this->info('🖼️ Generating test images...');
-        Artisan::call('app:generate-test-images');
+        $generateImagesCommand = 'app:generate-test-images';
+        if ($this->option('clean-images')) {
+            $generateImagesCommand .= ' --clean';
+        }
+        Artisan::call($generateImagesCommand);
         $this->line(Artisan::output());
-        
+
         $this->info('🌱 Seeding database...');
         Artisan::call('db:seed');
         $this->line(Artisan::output());
-        
+
         $this->info('✅ Test data refresh completed!');
-        
+
         return Command::SUCCESS;
     }
 }

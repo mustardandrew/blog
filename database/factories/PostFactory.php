@@ -2,14 +2,33 @@
 
 namespace Database\Factories;
 
-use Database\Seeders\Helpers\TestImageGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
 class PostFactory extends Factory
 {
+    /**
+     * Get a random test image path or fallback to placeholder.
+     */
+    private function getRandomFeaturedImage(): ?string
+    {
+        if (! fake()->boolean(80)) {
+            return null;
+        }
+
+        $testImages = Storage::disk('public')->files('test-images');
+
+        if (! empty($testImages)) {
+            return fake()->randomElement($testImages);
+        }
+
+        // Fallback: use placeholder URL if no test images exist
+        return fake()->imageUrl(800, 600, 'blog');
+    }
+
     /**
      * Define the model's default state.
      *
@@ -19,39 +38,15 @@ class PostFactory extends Factory
     {
         $title = fake()->sentence(rand(3, 8));
         $content = collect(range(1, rand(3, 6)))
-            ->map(fn() => '<p>' . fake()->paragraph(rand(3, 8)) . '</p>')
+            ->map(fn () => '<p>'.fake()->paragraph(rand(3, 8)).'</p>')
             ->implode("\n\n");
-
-        // Get a random test image (80% chance of having an image)
-        $featuredImage = fake()->optional(0.8)->randomElement([
-            'test-images/test-blog-1-programming.jpg',
-            'test-images/test-blog-2-cloud-computing.jpg',
-            'test-images/test-blog-3-business.jpg',
-            'test-images/test-blog-4-programming.jpg',
-            'test-images/test-blog-5-artificial-intelligence.jpg',
-            'test-images/test-blog-6-data-science.jpg',
-            'test-images/test-blog-7-web-development.jpg',
-            'test-images/test-blog-8-startup.jpg',
-            'test-images/test-blog-9-mobile-apps.jpg',
-            'test-images/test-blog-10-programming.jpg',
-            'test-images/test-blog-11-programming.jpg',
-            'test-images/test-blog-12-design.jpg',
-            'test-images/test-blog-13-artificial-intelligence.jpg',
-            'test-images/test-blog-14-technology.jpg',
-            'test-images/test-blog-15-data-science.jpg',
-            'test-images/test-blog-16-data-science.jpg',
-            'test-images/test-blog-17-business.jpg',
-            'test-images/test-blog-18-programming.jpg',
-            'test-images/test-blog-19-cloud-computing.jpg',
-            'test-images/test-blog-20-mobile-apps.jpg',
-        ]);
 
         return [
             'title' => $title,
             'slug' => \Illuminate\Support\Str::slug($title),
             'excerpt' => fake()->paragraph(2),
             'content' => $content,
-            'featured_image' => $featuredImage,
+            'featured_image' => $this->getRandomFeaturedImage(),
             'meta_title' => fake()->optional()->sentence(4),
             'meta_description' => fake()->optional()->paragraph(1),
             'meta_keywords' => fake()->optional()->words(rand(3, 8)),
@@ -63,7 +58,7 @@ class PostFactory extends Factory
 
     public function published(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'published',
             'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ]);
@@ -71,7 +66,7 @@ class PostFactory extends Factory
 
     public function draft(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'draft',
             'published_at' => null,
         ]);
@@ -79,7 +74,7 @@ class PostFactory extends Factory
 
     public function archived(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'status' => 'archived',
             'published_at' => fake()->dateTimeBetween('-2 years', '-1 month'),
         ]);
