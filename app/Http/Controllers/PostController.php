@@ -36,6 +36,9 @@ class PostController extends Controller
             abort(404);
         }
 
+        // Load relationships
+        $post->load(['user', 'tags', 'categories']);
+
         return view('posts.show', compact('post'));
     }
 }
