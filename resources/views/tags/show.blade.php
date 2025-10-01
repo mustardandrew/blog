@@ -1,15 +1,29 @@
-<x-layouts.app title="Blog Posts">
+@php
+    $metaTitle = "Tag: {$tag->name}";
+    $metaDescription = $tag->description ?? "Browse all posts tagged with {$tag->name}";
+@endphp
+
+<x-layouts.app 
+    :title="$metaTitle"
+    :description="$metaDescription">
+    
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Breadcrumbs -->
         <flux:breadcrumbs class="mb-8">
             <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Blog</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>{{ $tag->name }}</flux:breadcrumbs.item>
         </flux:breadcrumbs>
 
         <div class="mb-8">
-            <flux:heading size="xl">Blog Posts</flux:heading>
-            <flux:text class="mt-2 text-zinc-600 dark:text-zinc-400">
-                Discover our latest articles and insights
+            <flux:heading size="xl"># {{ $tag->name }}</flux:heading>
+            @if($tag->description)
+                <flux:text class="mt-2 text-zinc-600 dark:text-zinc-400">
+                    {{ $tag->description }}
+                </flux:text>
+            @endif
+            <flux:text class="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
+                {{ $posts->total() }} {{ Str::plural('post', $posts->total()) }} tagged with this
             </flux:text>
         </div>
 
@@ -26,7 +40,7 @@
         @else
             <div class="text-center py-12">
                 <flux:text size="lg" class="text-zinc-500 dark:text-zinc-400">
-                    No posts published yet.
+                    No posts found with this tag.
                 </flux:text>
             </div>
         @endif

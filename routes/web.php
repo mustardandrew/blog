@@ -33,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/posts', [App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
 
+// Categories and Tags routes
+Route::get('/categories/{category:slug}', [App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
+Route::get('/tags/{tag:slug}', [App\Http\Controllers\TagController::class, 'show'])->name('tags.show');
+
 // Pages routes  
 Route::get('/pages/{page:slug}', function (\App\Models\Page $page) {
     // Only show published pages to non-admin users
