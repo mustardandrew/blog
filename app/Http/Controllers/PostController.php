@@ -8,6 +8,17 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
+    public function home(): View
+    {
+        $posts = Post::with('user')
+            ->published()
+            ->latest('published_at')
+            ->limit(6)
+            ->get();
+
+        return view('welcome', compact('posts'));
+    }
+
     public function index(): View
     {
         $posts = Post::with('user')
