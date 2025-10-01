@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
@@ -134,25 +135,39 @@ test('posts index shows pagination when there are many posts', function () {
     expect($posts->hasPages())->toBeTrue();
 });
 
-test('posts are ordered by published date on index', function () {
-    $olderPost = Post::factory()->published()->create([
-        'title' => 'Older Post',
-        'published_at' => now()->subDays(10),
-    ]);
-
+it('posts are ordered by published date on index', function () {
     $newerPost = Post::factory()->published()->create([
-        'title' => 'Newer Post',
-        'published_at' => now()->subDays(5),
+        'published_at' => now()->subDay()
+    ]);
+    
+    $olderPost = Post::factory()->published()->create([
+        'published_at' => now()->subDays(2)
     ]);
 
     $response = $this->get(route('posts.index'));
 
-    $response->assertStatus(200);
+    $response->assertSeeInOrder([
+        $newerPost->title,
+        $olderPost->title
+    ]);
+});
 
-    // Check that newer post appears before older post in the content
-    $content = $response->getContent();
-    $newerPostPosition = strpos($content, 'Newer Post');
-    $olderPostPosition = strpos($content, 'Older Post');
+it('displays breadcrumbs on post page', function () {
+    $category = Category::factory()->create(['name' => 'Technology']);
+    $post = Post::factory()->published()->create();
+    $post->categories()->attach($category);
 
-    expect($newerPostPosition)->toBeLessThan($olderPostPosition);
+    $response = $this->get(route('posts.show', $post));
+
+    $response->assertSee('Home')
+        ->assertSee('Blog')
+        ->assertSee('Technology')
+        ->assertSee(Str::limit($post->title, 50));
+});
+
+it('displays breadcrumbs on posts index', function () {
+    $response = $this->get(route('posts.index'));
+
+    $response->assertSee('Home')
+        ->assertSee('Blog');
 });

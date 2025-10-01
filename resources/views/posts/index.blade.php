@@ -1,5 +1,11 @@
 <x-layouts.app title="Blog Posts">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs -->
+        <flux:breadcrumbs class="mb-8">
+            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Blog</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+
         <div class="mb-8">
             <flux:heading size="xl">Blog Posts</flux:heading>
             <flux:text class="mt-2 text-zinc-600 dark:text-zinc-400">

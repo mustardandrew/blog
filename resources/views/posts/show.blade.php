@@ -9,6 +9,18 @@
     :keywords="$post->meta_keywords ? implode(', ', $post->meta_keywords) : null">
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs -->
+        <flux:breadcrumbs class="mb-8">
+            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
+            @if($post->categories->isNotEmpty())
+                <flux:breadcrumbs.item href="{{ route('posts.index', ['category' => $post->categories->first()->slug]) }}">
+                    {{ $post->categories->first()->name }}
+                </flux:breadcrumbs.item>
+            @endif
+            <flux:breadcrumbs.item>{{ Str::limit($post->title, 50) }}</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+
         @if($post->isDraft() && auth()->check() && auth()->user()->is_admin)
             <flux:callout variant="warning" class="mb-8">
                 <flux:callout.text>
