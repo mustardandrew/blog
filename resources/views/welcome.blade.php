@@ -1,5 +1,5 @@
 <x-layouts.app title="Welcome to Our Blog">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div container class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <flux:heading size="2xl" class="mb-4">Welcome to Our Blog</flux:heading>
