@@ -109,4 +109,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * Get the newsletter subscriptions for this user.
+     */
+    public function newsletters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Newsletter::class);
+    }
+
+    /**
+     * Check if user is subscribed to newsletter.
+     */
+    public function isSubscribedToNewsletter(): bool
+    {
+        return $this->newsletters()->active()->exists();
+    }
 }

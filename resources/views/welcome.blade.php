@@ -111,22 +111,9 @@
             </div>
         @endif
 
-        <!-- Call to Action Section -->
-        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-8 text-center mt-12">
-            <flux:heading size="lg" class="mb-4">Stay Updated</flux:heading>
-            <flux:text class="text-zinc-600 dark:text-zinc-400 mb-6">
-                Don't miss out on our latest articles and insights. Join our community of readers.
-            </flux:text>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <flux:button href="{{ route('posts.index') }}" variant="primary" wire:navigate>
-                    Browse All Posts
-                </flux:button>
-                @guest
-                    <flux:button href="{{ route('register') }}" variant="outline" wire:navigate>
-                        Join Our Community
-                    </flux:button>
-                @endguest
-            </div>
+        <!-- Newsletter Subscription Section -->
+        <div class="mt-12">
+            <livewire:newsletter-subscription />
         </div>
     </div>
 </x-layouts.app>
