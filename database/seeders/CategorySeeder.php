@@ -50,38 +50,50 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            \App\Models\Category::create($category);
+            \App\Models\Category::firstOrCreate(
+                ['slug' => $category['slug']],
+                $category
+            );
         }
 
         // Create some child categories
         $tech = \App\Models\Category::where('slug', 'technology')->first();
         $webDev = \App\Models\Category::where('slug', 'web-development')->first();
 
-        \App\Models\Category::create([
-            'name' => 'Mobile Development',
-            'slug' => 'mobile-development',
-            'description' => 'iOS and Android development',
-            'color' => '#06b6d4',
-            'sort_order' => 1,
-            'parent_id' => $tech->id,
-        ]);
+        \App\Models\Category::firstOrCreate(
+            ['slug' => 'mobile-development'],
+            [
+                'name' => 'Mobile Development',
+                'slug' => 'mobile-development',
+                'description' => 'iOS and Android development',
+                'color' => '#06b6d4',
+                'sort_order' => 1,
+                'parent_id' => $tech->id,
+            ]
+        );
 
-        \App\Models\Category::create([
-            'name' => 'Frontend',
-            'slug' => 'frontend',
-            'description' => 'Frontend development with React, Vue, etc.',
-            'color' => '#84cc16',
-            'sort_order' => 1,
-            'parent_id' => $webDev->id,
-        ]);
+        \App\Models\Category::firstOrCreate(
+            ['slug' => 'frontend'],
+            [
+                'name' => 'Frontend',
+                'slug' => 'frontend',
+                'description' => 'Frontend development with React, Vue, etc.',
+                'color' => '#84cc16',
+                'sort_order' => 1,
+                'parent_id' => $webDev->id,
+            ]
+        );
 
-        \App\Models\Category::create([
-            'name' => 'Backend',
-            'slug' => 'backend',
-            'description' => 'Backend development and APIs',
-            'color' => '#f97316',
-            'sort_order' => 2,
-            'parent_id' => $webDev->id,
-        ]);
+        \App\Models\Category::firstOrCreate(
+            ['slug' => 'backend'],
+            [
+                'name' => 'Backend',
+                'slug' => 'backend',
+                'description' => 'Backend development and APIs',
+                'color' => '#f97316',
+                'sort_order' => 2,
+                'parent_id' => $webDev->id,
+            ]
+        );
     }
 }

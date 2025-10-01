@@ -89,10 +89,10 @@ class Post extends Model
         return $this->status === 'draft';
     }
 
-    public function getFeaturedImageUrlAttribute(): ?string
+    public function getFeaturedImageUrlAttribute(): string
     {
-        if (!$this->featured_image) {
-            return null;
+        if (! $this->featured_image) {
+            return Storage::url('images/default-blog-post.svg');
         }
 
         return Storage::url($this->featured_image);

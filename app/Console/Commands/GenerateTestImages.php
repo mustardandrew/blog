@@ -26,7 +26,7 @@ class GenerateTestImages extends Command
      */
     public function handle(): int
     {
-        $count = (int) $this->option('count');
+        $count = (int) $this->option('count', 20);
         $clean = $this->option('clean');
         $force = $this->option('force');
 
@@ -36,6 +36,13 @@ class GenerateTestImages extends Command
         if (! $clean && ! $force && TestImageGenerator::hasTestImages()) {
             $existingCount = TestImageGenerator::getTestImageCount();
             $this->info("Found {$existingCount} existing test images.");
+
+            // In non-interactive mode, skip generation by default
+            if ($this->option('no-interaction')) {
+                $this->info('Running in non-interactive mode. Skipping image generation.');
+
+                return Command::SUCCESS;
+            }
 
             if (! $this->confirm('Test images already exist. Do you want to skip generation?', true)) {
                 $clean = $this->confirm('Do you want to clean existing images and generate new ones?');

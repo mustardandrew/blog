@@ -21,11 +21,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($posts as $post)
                         <article class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 overflow-hidden hover:shadow-md transition-shadow">
-                            @if($post->featured_image_url)
-                                <img src="{{ $post->featured_image_url }}" 
-                                     alt="{{ $post->title }}"
-                                     class="w-full h-48 object-cover">
-                            @endif
+                            <img src="{{ $post->featured_image_url }}" 
+                                 alt="{{ $post->title }}"
+                                 class="w-full h-48 object-cover">
                             
                             <div class="p-6">
                                 <div class="flex items-center text-sm text-zinc-500 dark:text-zinc-400 mb-2">

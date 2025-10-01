@@ -19,11 +19,9 @@
 
         <article>
             <header class="mb-8">
-                @if($post->featured_image)
-                    <img src="{{ Storage::url($post->featured_image) }}" 
-                         alt="{{ $post->title }}"
-                         class="w-full h-64 sm:h-80 object-cover rounded-lg mb-6">
-                @endif
+                <img src="{{ $post->featured_image_url }}" 
+                     alt="{{ $post->title }}"
+                     class="w-full h-64 sm:h-80 object-cover rounded-lg mb-6">
 
                 <flux:heading size="2xl" class="mb-4">{{ $post->title }}</flux:heading>
                 

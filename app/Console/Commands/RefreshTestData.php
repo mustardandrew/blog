@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 
 class RefreshTestData extends Command
 {
@@ -12,7 +13,10 @@ class RefreshTestData extends Command
      *
      * @var string
      */
-    protected $signature = 'app:refresh-test-data {--fresh : Drop all tables and migrate from scratch} {--clean-images : Clean and regenerate test images}';
+    protected $signature = 'app:refresh-test-data 
+                            {--fresh : Drop all tables and migrate from scratch} 
+                            {--clean-images : Clean and regenerate test images} 
+                            {--skip-images : Skip image generation entirely}';
 
     /**
      * The console command description.
@@ -34,13 +38,36 @@ class RefreshTestData extends Command
             $this->line(Artisan::output());
         }
 
-        $this->info('🖼️ Generating test images...');
-        $generateImagesCommand = 'app:generate-test-images';
-        if ($this->option('clean-images')) {
-            $generateImagesCommand .= ' --clean';
+        // Handle image generation
+        if ($this->option('skip-images')) {
+            $this->info('🖼️ Skipping image generation...');
+        } else {
+            $this->info('🖼️ Generating test images...');
+            $generateImagesCommand = 'app:generate-test-images --no-interaction';
+            if ($this->option('clean-images')) {
+                $generateImagesCommand .= ' --clean';
+            }
+
+            try {
+                Artisan::call($generateImagesCommand);
+                $this->line(Artisan::output());
+            } catch (\Exception $e) {
+                $this->warn('Image generation skipped: '.$e->getMessage());
+            }
         }
-        Artisan::call($generateImagesCommand);
-        $this->line(Artisan::output());
+
+        // Ensure default image exists
+        $this->info('🎨 Ensuring default image exists...');
+        if (! Storage::disk('public')->exists('images/default-blog-post.svg')) {
+            try {
+                Artisan::call('app:create-default-image');
+                $this->line(Artisan::output());
+            } catch (\Exception $e) {
+                $this->warn('Default image creation failed: '.$e->getMessage());
+            }
+        } else {
+            $this->line('Default image already exists.');
+        }
 
         $this->info('🌱 Seeding database...');
         Artisan::call('db:seed');

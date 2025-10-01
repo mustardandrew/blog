@@ -46,26 +46,32 @@ class TagSeeder extends Seeder
 
         // Create featured tags
         foreach ($featuredTags as $tagData) {
-            Tag::create([
-                'name' => $tagData['name'],
-                'slug' => \Illuminate\Support\Str::slug($tagData['name']),
-                'description' => "Posts related to {$tagData['name']}",
-                'color' => $tagData['color'],
-                'is_featured' => $tagData['is_featured'],
-                'usage_count' => $tagData['usage_count'],
-            ]);
+            Tag::firstOrCreate(
+                ['slug' => \Illuminate\Support\Str::slug($tagData['name'])],
+                [
+                    'name' => $tagData['name'],
+                    'slug' => \Illuminate\Support\Str::slug($tagData['name']),
+                    'description' => "Posts related to {$tagData['name']}",
+                    'color' => $tagData['color'],
+                    'is_featured' => $tagData['is_featured'],
+                    'usage_count' => $tagData['usage_count'],
+                ]
+            );
         }
 
         // Create regular tags
         foreach ($regularTags as $tagData) {
-            Tag::create([
-                'name' => $tagData['name'],
-                'slug' => \Illuminate\Support\Str::slug($tagData['name']),
-                'description' => "Posts related to {$tagData['name']}",
-                'color' => $tagData['color'],
-                'is_featured' => false,
-                'usage_count' => $tagData['usage_count'],
-            ]);
+            Tag::firstOrCreate(
+                ['slug' => \Illuminate\Support\Str::slug($tagData['name'])],
+                [
+                    'name' => $tagData['name'],
+                    'slug' => \Illuminate\Support\Str::slug($tagData['name']),
+                    'description' => "Posts related to {$tagData['name']}",
+                    'color' => $tagData['color'],
+                    'is_featured' => false,
+                    'usage_count' => $tagData['usage_count'],
+                ]
+            );
         }
     }
 }
