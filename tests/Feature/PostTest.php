@@ -90,7 +90,7 @@ test('post displays author and publish date', function () {
     $response = $this->get(route('posts.show', $post->slug));
 
     $response->assertStatus(200)
-        ->assertSee('By John Doe')
+        ->assertSee('John Doe')  // Author name appears in sidebar
         ->assertSee($post->published_at->format('F j, Y'));
 });
 
@@ -113,7 +113,7 @@ test('post displays tags when available', function () {
     $response = $this->get(route('posts.show', $post->slug));
 
     $response->assertStatus(200)
-        ->assertSee('Tags:')
+        ->assertSee('Tags')  // New heading text
         ->assertSee('Laravel')
         ->assertSee('PHP')
         ->assertSee('Web Development');
@@ -135,7 +135,7 @@ test('posts are ordered by published date on index', function () {
         'title' => 'Older Post',
         'published_at' => now()->subDays(10),
     ]);
-    
+
     $newerPost = Post::factory()->published()->create([
         'title' => 'Newer Post',
         'published_at' => now()->subDays(5),
@@ -144,11 +144,11 @@ test('posts are ordered by published date on index', function () {
     $response = $this->get(route('posts.index'));
 
     $response->assertStatus(200);
-    
+
     // Check that newer post appears before older post in the content
     $content = $response->getContent();
     $newerPostPosition = strpos($content, 'Newer Post');
     $olderPostPosition = strpos($content, 'Older Post');
-    
+
     expect($newerPostPosition)->toBeLessThan($olderPostPosition);
 });
