@@ -25,8 +25,7 @@ class CategoriesTable
                     ->sortable()
                     ->formatStateUsing(function ($record) {
                         $indent = str_repeat('—— ', $record->parent_id ? 1 : 0);
-
-                        return $indent.$record->name;
+                        return $indent . $record->name;
                     }),
 
                 TextColumn::make('slug')
