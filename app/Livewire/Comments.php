@@ -38,12 +38,20 @@ class Comments extends Component
     {
         $this->validate();
 
+        // Ensure we only create replies to top-level comments
+        $parentId = null;
+        if ($this->reply_to) {
+            $parentComment = Comment::find($this->reply_to);
+            // If replying to a reply, make it a reply to the original parent
+            $parentId = $parentComment->parent_id ?? $this->reply_to;
+        }
+
         $comment = new Comment([
             'post_id' => $this->post->id,
             'content' => $this->content,
             'author_name' => $this->author_name,
             'author_email' => $this->author_email,
-            'parent_id' => $this->reply_to,
+            'parent_id' => $parentId,
             'is_approved' => true, // Auto-approve for now
         ]);
 
@@ -66,6 +74,9 @@ class Comments extends Component
     {
         $this->reply_to = $commentId;
         $this->showReplyForm = true;
+        
+        // Dispatch event to scroll to form
+        $this->dispatch('scroll-to-form');
     }
 
     public function cancelReply(): void

@@ -1,4 +1,6 @@
-<div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8">
+<div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8" 
+     x-data="{}" 
+     @scroll-to-form.window="$nextTick(() => $refs.commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' }))">
     <flux:heading size="lg" class="mb-6">Comments ({{ $comments->count() }})</flux:heading>
 
     <!-- Success Message -->
@@ -9,7 +11,7 @@
     @endif
 
     <!-- Comment Form -->
-    <form wire:submit="addComment" class="mb-8 space-y-4">
+    <form wire:submit="addComment" class="mb-8 space-y-4" x-ref="commentForm">
         @if (!auth()->check())
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -34,6 +36,9 @@
                 <flux:label>
                     @if ($reply_to)
                         Reply to comment
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400 ml-1">
+                            ({{ $comments->flatMap(fn($c) => [$c, ...$c->replies])->firstWhere('id', $reply_to)?->author_name ?? 'comment' }})
+                        </span>
                     @else
                         Your comment *
                     @endif
@@ -48,7 +53,11 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <flux:button type="submit" variant="primary" wire:loading.attr="disabled">
+            <button 
+                type="submit" 
+                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold rounded-lg shadow-lg shadow-amber-500/25 transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                wire:loading.attr="disabled"
+            >
                 <span wire:loading.remove>
                     @if ($reply_to)
                         Post Reply
@@ -57,7 +66,7 @@
                     @endif
                 </span>
                 <span wire:loading>Posting...</span>
-            </flux:button>
+            </button>
 
             @if ($reply_to)
                 <flux:button type="button" variant="ghost" wire:click="cancelReply">
@@ -70,7 +79,7 @@
     <!-- Comments List -->
     <div class="space-y-6">
         @forelse ($comments as $comment)
-            <div class="comment-item" wire:key="comment-{{ $comment->id }}">
+            <div class="comment-item {{ $reply_to === $comment->id ? 'ring-2 ring-blue-500 ring-opacity-50 rounded-lg' : '' }}" wire:key="comment-{{ $comment->id }}">
                 <!-- Main Comment -->
                 <div class="flex items-start space-x-4">
                     <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
@@ -101,7 +110,7 @@
                         <div class="mt-2 flex items-center gap-4">
                             <button 
                                 wire:click="replyTo({{ $comment->id }})"
-                                class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                                class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold rounded-lg shadow-md shadow-amber-500/25 transition-all duration-200 transform hover:scale-105"
                             >
                                 Reply
                             </button>
@@ -111,7 +120,7 @@
                         @if ($comment->replies->count() > 0)
                             <div class="mt-4 space-y-4">
                                 @foreach ($comment->replies as $reply)
-                                    <div class="flex items-start space-x-4" wire:key="reply-{{ $reply->id }}">
+                                    <div class="flex items-start space-x-4 {{ $reply_to === $reply->id ? 'ring-2 ring-blue-500 ring-opacity-50 rounded-lg p-2' : '' }}" wire:key="reply-{{ $reply->id }}">
                                         <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
                                             <span class="text-white font-bold text-xs">
                                                 @if ($reply->user)
