@@ -49,8 +49,8 @@
                 @endforeach
             </div>
 
-            <div class="flex justify-center">
-                {{ $posts->links() }}
+            <div class="flex justify-center mt-8">
+                {{ $posts->links('pagination::blog') }}
             </div>
         @else
             <div class="text-center py-12">
