@@ -23,9 +23,12 @@
             @endif
 
             <div class="flex items-center">
-                <flux:text size="sm" class="text-zinc-500 dark:text-zinc-400">
-                    Page {{ $paginator->currentPage() }} of {{ $paginator->lastPage() }}
-                </flux:text>
+                <div class="inline-flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/50 px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-700">
+                    <span>Page</span>
+                    <span class="font-semibold text-amber-600 dark:text-amber-400">{{ $paginator->currentPage() }}</span>
+                    <span>of</span>
+                    <span class="font-semibold text-zinc-900 dark:text-zinc-100">{{ $paginator->lastPage() }}</span>
+                </div>
             </div>
 
             @if ($paginator->hasMorePages())
@@ -53,15 +56,15 @@
         <div class="hidden sm:flex sm:flex-col sm:items-center sm:space-y-4">
             {{-- Results info --}}
             <div class="text-center">
-                <flux:text size="sm" class="text-zinc-600 dark:text-zinc-400">
-                    Showing 
-                    <span class="font-semibold text-zinc-900 dark:text-zinc-100">{{ $paginator->firstItem() }}</span>
-                    to 
-                    <span class="font-semibold text-zinc-900 dark:text-zinc-100">{{ $paginator->lastItem() }}</span>
-                    of 
+                <div class="inline-flex items-center gap-1 text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-700">
+                    <span>Showing</span>
+                    <span class="font-semibold text-amber-600 dark:text-amber-400">{{ $paginator->firstItem() }}</span>
+                    <span>to</span>
+                    <span class="font-semibold text-amber-600 dark:text-amber-400">{{ $paginator->lastItem() }}</span>
+                    <span>of</span>
                     <span class="font-semibold text-zinc-900 dark:text-zinc-100">{{ $paginator->total() }}</span>
-                    posts
-                </flux:text>
+                    <span class="text-zinc-500 dark:text-zinc-500">posts</span>
+                </div>
             </div>
 
             {{-- Pagination controls --}}
@@ -94,7 +97,7 @@
                     @if (is_array($element))
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
-                                <span class="flex items-center justify-center w-8 h-8 text-white bg-blue-600 rounded-md font-medium text-sm">{{ $page }}</span>
+                                <span class="flex items-center justify-center w-8 h-8 text-white bg-amber-600 rounded-md font-medium text-sm">{{ $page }}</span>
                             @else
                                 <a href="{{ $url }}" 
                                    wire:navigate
