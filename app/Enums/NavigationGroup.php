@@ -6,8 +6,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum NavigationGroup: string implements HasLabel
 {
-    case Blog = 'blog';
     case Users = 'users';
+    case Blog = 'blog';
     case Settings = 'settings';
 
     public function getLabel(): string
@@ -17,5 +17,10 @@ enum NavigationGroup: string implements HasLabel
             self::Users => 'Users',
             self::Settings => 'Settings',
         };
+    }
+
+    public static function values(): array
+    {
+        return array_map(fn (self $group) => $group->value, self::cases());
     }
 }

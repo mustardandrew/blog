@@ -23,6 +23,8 @@ class NewsletterResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = NavigationGroup::Users;
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $navigationLabel = 'Newsletter Subscriptions';
 
     protected static ?string $modelLabel = 'Newsletter Subscription';

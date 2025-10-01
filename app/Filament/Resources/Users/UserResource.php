@@ -25,6 +25,8 @@ class UserResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = NavigationGroup::Users;
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationLabel = 'Users';
 
     protected static ?string $modelLabel = 'User';
