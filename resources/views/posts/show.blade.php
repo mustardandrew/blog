@@ -68,6 +68,9 @@
                         {!! $post->content !!}
                     </div>
                 </article>
+
+                <!-- Comments Section -->
+                @livewire('comments', ['post' => $post])
             </div>
 
             <!-- Sidebar -->
