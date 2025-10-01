@@ -55,22 +55,7 @@
                             <div class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</div>
                         @enderror
                     </div>
-                @else
-                    <div>
-                        <flux:input 
-                            wire:model="email" 
-                            type="email" 
-                            placeholder="Enter your email address"
-                            readonly
-                            required
-                        />
-                        @error('email') 
-                            <div class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</div>
-                        @enderror
-                    </div>
                 @endguest
-                
-                
                 
                 <button 
                     type="submit" 
