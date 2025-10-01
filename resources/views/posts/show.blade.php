@@ -86,7 +86,7 @@
                                     {{ $post->user->name }}
                                 </h4>
                                 <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-                                    Content creator and developer passionate about sharing knowledge and building amazing web experiences.
+                                    {{ $post->user->bio ?? 'Content creator and developer passionate about sharing knowledge and building amazing web experiences.' }}
                                 </p>
                             </div>
                         </div>

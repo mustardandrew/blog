@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -40,6 +41,13 @@ class UserForm
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
+
+                        Textarea::make('bio')
+                            ->label('Biography')
+                            ->rows(3)
+                            ->maxLength(500)
+                            ->helperText('A short bio about the user (max 500 characters)')
+                            ->columnSpanFull(),
                         
                         DateTimePicker::make('email_verified_at')
                             ->label('Email verified at'),
