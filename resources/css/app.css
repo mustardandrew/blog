@@ -64,3 +64,16 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Hero section decorative grid patterns */
+.bg-grid-amber-100\/50 {
+    background-image: linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.dark .bg-grid-amber-800\/20 {
+    background-image: linear-gradient(rgba(146, 64, 14, 0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(146, 64, 14, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
