@@ -59,6 +59,36 @@ test('welcome page shows join community button for guests', function () {
     $response->assertSee('Join Our Community');
 });
 
+test('welcome page displays published posts with featured images', function () {
+    $user = User::factory()->create();
+    
+    // Create posts with specific test images
+    $postWithImage = Post::factory()
+        ->for($user)
+        ->published()
+        ->create([
+            'featured_image' => 'test-images/test-blog-1-programming.jpg'
+        ]);
+    
+    $postWithoutImage = Post::factory()
+        ->for($user)
+        ->published()
+        ->create([
+            'featured_image' => null
+        ]);
+
+    $response = $this->get('/');
+
+    $response->assertStatus(200);
+    
+    // Check that post with image shows the image
+    $response->assertSee($postWithImage->title);
+    $response->assertSee('test-blog-1-programming.jpg');
+    
+    // Check that post without image still displays
+    $response->assertSee($postWithoutImage->title);
+});
+
 test('welcome page limits posts to 6 latest', function () {
     $user = User::factory()->create();
     

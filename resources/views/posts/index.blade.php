@@ -11,8 +11,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 @foreach($posts as $post)
                     <article class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 overflow-hidden hover:shadow-md transition-shadow">
-                        @if($post->featured_image)
-                            <img src="{{ Storage::url($post->featured_image) }}" 
+                        @if($post->featured_image_url)
+                            <img src="{{ $post->featured_image_url }}" 
                                  alt="{{ $post->title }}"
                                  class="w-full h-48 object-cover">
                         @endif

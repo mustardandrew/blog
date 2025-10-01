@@ -58,15 +58,20 @@ class PageSeeder extends Seeder
         ];
 
         foreach ($staticPages as $pageData) {
-            Page::create(array_merge($pageData, [
-                'author_id' => $authors->random()->id,
-            ]));
+            // Перевіряємо чи сторінка вже існує
+            if (!Page::where('slug', $pageData['slug'])->exists()) {
+                Page::create(array_merge($pageData, [
+                    'author_id' => $authors->random()->id,
+                ]));
+            }
         }
 
-        // Створюємо випадкові сторінки
-        Page::factory(15)->published()->create([
-            'author_id' => fn () => $authors->random()->id,
-        ]);
+        // Створюємо випадкові сторінки тільки якщо їх мало
+        if (Page::count() < 10) {
+            Page::factory(15)->published()->create([
+                'author_id' => fn () => $authors->random()->id,
+            ]);
+        }
 
         // Створюємо кілька чернеток
         Page::factory(5)->draft()->create([
