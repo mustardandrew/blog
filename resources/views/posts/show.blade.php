@@ -8,7 +8,7 @@
     :description="$metaDescription"
     :keywords="$post->meta_keywords ? implode(', ', $post->meta_keywords) : null">
     
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         @if($post->isDraft() && auth()->check() && auth()->user()->is_admin)
             <flux:callout variant="warning" class="mb-8">
                 <flux:callout.text>
@@ -29,13 +29,13 @@
                 
                 <!-- Hero Content -->
                 <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                    <div class="max-w-4xl">
-                        <flux:heading size="3xl" class="mb-4 text-white font-bold leading-tight">
+                    <div class="w-full">
+                        <flux:heading size="xl" class="mb-4 text-white font-bold leading-none text-4xl sm:text-5xl lg:text-6xl drop-shadow-lg">
                             {{ $post->title }}
                         </flux:heading>
                         
                         @if($post->excerpt)
-                            <p class="text-xl text-white/90 font-medium mb-4 leading-relaxed">
+                            <p class="text-xl text-white/90 font-medium mb-4 leading-relaxed drop-shadow-md">
                                 {{ $post->excerpt }}
                             </p>
                         @endif
@@ -46,9 +46,9 @@
                                     <span class="text-sm font-semibold">{{ $post->user->initials() }}</span>
                                 </div>
                                 <div>
-                                    <div class="font-medium">{{ $post->user->name }}</div>
+                                    <div class="font-medium drop-shadow-md">{{ $post->user->name }}</div>
                                     @if($post->published_at)
-                                        <div class="text-sm text-white/70">
+                                        <div class="text-sm text-white/70 drop-shadow-md">
                                             {{ $post->published_at->format('F j, Y') }}
                                         </div>
                                     @endif
@@ -64,7 +64,7 @@
             <!-- Main Content -->
             <div class="lg:col-span-2">
                 <article class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 mb-8">
-                    <div class="prose prose-lg prose-zinc dark:prose-invert max-w-none">
+                    <div class="post-content">
                         {!! $post->content !!}
                     </div>
                 </article>

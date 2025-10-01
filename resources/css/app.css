@@ -77,3 +77,64 @@ select:focus[data-flux-control] {
                       linear-gradient(90deg, rgba(146, 64, 14, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
 }
+
+/* Rich Content Styling */
+.post-content {
+    @apply text-lg leading-relaxed text-zinc-700 dark:text-zinc-300;
+}
+
+.post-content h3 {
+    @apply text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-8 mb-4 border-b border-zinc-200 dark:border-zinc-700 pb-2;
+}
+
+.post-content p {
+    @apply text-zinc-700 dark:text-zinc-300 leading-relaxed mb-6;
+}
+
+.post-content p:first-child {
+    @apply text-xl font-medium text-zinc-800 dark:text-zinc-200;
+}
+
+.post-content a {
+    @apply text-blue-600 dark:text-blue-400 no-underline hover:underline;
+}
+
+.post-content strong {
+    @apply text-zinc-900 dark:text-zinc-100 font-semibold;
+}
+
+.post-content blockquote {
+    @apply border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 py-4 px-6 my-8 rounded-r-lg text-blue-900 dark:text-blue-100 font-medium;
+}
+
+.post-content blockquote cite {
+    @apply text-blue-600 dark:text-blue-400 text-sm font-normal not-italic block mt-2;
+}
+
+.post-content ul, .post-content ol {
+    @apply my-6 pl-6;
+}
+
+.post-content li {
+    @apply my-2 text-zinc-700 dark:text-zinc-300;
+}
+
+.post-content ul > li {
+    @apply list-disc;
+}
+
+.post-content ol > li {
+    @apply list-decimal;
+}
+
+.post-content code {
+    @apply text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20 px-1.5 py-0.5 rounded font-medium text-sm;
+}
+
+.post-content pre {
+    @apply bg-zinc-900 dark:bg-zinc-800 text-zinc-100 rounded-lg p-4 my-6 overflow-x-auto;
+}
+
+.post-content img {
+    @apply rounded-lg shadow-lg my-8 w-full;
+}

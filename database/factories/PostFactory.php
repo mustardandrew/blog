@@ -30,6 +30,58 @@ class PostFactory extends Factory
     }
 
     /**
+     * Generate rich content with paragraphs, lists, and quotes.
+     */
+    private function generateRichContent(): string
+    {
+        $contentParts = [];
+        $sectionsCount = rand(8, 15); // Більше секцій контенту
+
+        for ($i = 0; $i < $sectionsCount; $i++) {
+            $sectionType = fake()->randomElement([
+                'paragraph',
+                'paragraph', 
+                'paragraph', 
+                'paragraph', // Більша ймовірність для абзаців
+                'list', 
+                'quote',
+                'heading'
+            ]);
+
+            switch ($sectionType) {
+                case 'paragraph':
+                    $contentParts[] = '<p>' . fake()->paragraph(rand(4, 12)) . '</p>';
+                    break;
+
+                case 'list':
+                    $listType = fake()->randomElement(['ul', 'ol']);
+                    $listItems = collect(range(1, rand(3, 7)))
+                        ->map(fn() => '<li>' . fake()->sentence(rand(3, 10)) . '</li>')
+                        ->implode("\n");
+                    $contentParts[] = "<{$listType}>\n{$listItems}\n</{$listType}>";
+                    break;
+
+                case 'quote':
+                    $quote = fake()->paragraph(rand(2, 4));
+                    $author = fake()->optional(0.7)->name();
+                    $attribution = $author ? "\n<cite>— {$author}</cite>" : '';
+                    $contentParts[] = "<blockquote>\n<p>{$quote}</p>{$attribution}\n</blockquote>";
+                    break;
+
+                case 'heading':
+                    if ($i > 2) { // Тільки після кількох абзаців
+                        $contentParts[] = '<h3>' . fake()->sentence(rand(2, 6), false) . '</h3>';
+                    } else {
+                        $contentParts[] = '<p>' . fake()->paragraph(rand(4, 12)) . '</p>';
+                    }
+                    break;
+            }
+        }
+
+        return implode("\n\n", $contentParts);
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -37,9 +89,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $title = fake()->sentence(rand(3, 8));
-        $content = collect(range(1, rand(3, 6)))
-            ->map(fn () => '<p>'.fake()->paragraph(rand(3, 8)).'</p>')
-            ->implode("\n\n");
+        $content = $this->generateRichContent();
 
         return [
             'title' => $title,
