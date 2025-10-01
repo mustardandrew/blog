@@ -93,4 +93,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Page::class, 'author_id');
     }
+
+    /**
+     * Get the posts authored by this user.
+     */
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the comments authored by this user.
+     */
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
