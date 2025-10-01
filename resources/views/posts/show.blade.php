@@ -14,7 +14,7 @@
             <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
             <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
             @if($post->categories->isNotEmpty())
-                <flux:breadcrumbs.item href="{{ route('posts.index', ['category' => $post->categories->first()->slug]) }}">
+                <flux:breadcrumbs.item href="{{ route('categories.show', $post->categories->first()) }}">
                     {{ $post->categories->first()->name }}
                 </flux:breadcrumbs.item>
             @endif
@@ -148,7 +148,7 @@
                                         <div class="text-sm text-zinc-500 dark:text-zinc-400 mb-2">Categories</div>
                                         <div class="flex flex-wrap gap-1">
                                             @foreach($post->categories as $category)
-                                                <a href="{{ route('posts.index', ['category' => $category->slug]) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md hover:bg-green-100 dark:hover:bg-green-800/30 transition-colors">
+                                                <a href="{{ route('categories.show', $category) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md hover:bg-green-100 dark:hover:bg-green-800/30 transition-colors">
                                                     @if($category->color)
                                                         <span class="w-1.5 h-1.5 rounded-full mr-1" style="background-color: {{ $category->color }}"></span>
                                                     @endif
@@ -171,7 +171,7 @@
                                         <div class="text-sm text-zinc-500 dark:text-zinc-400 mb-2">Tags</div>
                                         <div class="flex flex-wrap gap-1">
                                             @foreach($post->tags as $tag)
-                                                <a href="{{ route('posts.index', ['tag' => $tag->slug]) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-md hover:bg-purple-100 dark:hover:bg-purple-800/30 transition-colors">
+                                                <a href="{{ route('tags.show', $tag) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-md hover:bg-purple-100 dark:hover:bg-purple-800/30 transition-colors">
                                                     @if($tag->color)
                                                         <span class="w-1.5 h-1.5 rounded-full mr-1" style="background-color: {{ $tag->color }}"></span>
                                                     @endif
