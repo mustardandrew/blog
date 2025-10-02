@@ -76,9 +76,5 @@
             </div>
         @endif
 
-        <!-- Newsletter Subscription Section -->
-        <div class="mt-12">
-            <livewire:newsletter-subscription />
-        </div>
     </div>
 </x-layouts.app>
