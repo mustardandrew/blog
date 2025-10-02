@@ -401,7 +401,7 @@ html:not(.dark) .unmoderated-comments-widget .recent-header-icon {
                                             On: {{ Str::limit($comment->post->title ?? 'Unknown Post', 40) }}
                                         </p>
                                         <p class="comment-preview">
-                                            {{ Str::limit($comment->content, 80) }}
+                                            {{ Str::limit($comment->content, 65) }}
                                         </p>
                                     </div>
                                     <div class="comment-actions">

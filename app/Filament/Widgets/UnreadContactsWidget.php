@@ -12,7 +12,7 @@ class UnreadContactsWidget extends Widget
 
     protected static bool $isLazy = false;
 
-    protected int|string|array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 1;
 
     protected function getView(): string
     {
@@ -43,7 +43,7 @@ class UnreadContactsWidget extends Widget
             'todayCount' => $todayCount,
             'recentUnread' => $recentUnread,
             'contactsIndexUrl' => route('filament.admin.resources.contacts.index'),
-            'unreadContactsUrl' => route('filament.admin.resources.contacts.index', ['tableFilters[is_read][value]' => false]),
+            'unreadContactsUrl' => route('filament.admin.resources.contacts.index', ['filters[is_read][value]' => false]),
             'editContactUrl' => fn ($contact) => route('filament.admin.resources.contacts.edit', ['record' => $contact]),
         ];
     }

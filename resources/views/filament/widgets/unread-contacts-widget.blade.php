@@ -401,7 +401,7 @@ html:not(.dark) .unread-contacts-widget .recent-header-icon {
                                             {{ Str::limit($contact->subject, 50) }}
                                         </p>
                                         <p class="message-preview">
-                                            {{ Str::limit($contact->message, 80) }}
+                                            {{ Str::limit($contact->message, 70) }}
                                         </p>
                                     </div>
                                     <div class="message-actions">

@@ -12,7 +12,7 @@ class UnmoderatedCommentsWidget extends Widget
 
     protected static bool $isLazy = false;
 
-    protected int|string|array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 1;
 
     protected function getView(): string
     {
@@ -47,7 +47,7 @@ class UnmoderatedCommentsWidget extends Widget
             'todayCount' => $todayCount,
             'recentUnapproved' => $recentUnapproved,
             'commentsIndexUrl' => route('filament.admin.resources.comments.index'),
-            'unapprovedCommentsUrl' => route('filament.admin.resources.comments.index', ['tableFilters[is_approved][value]' => false]),
+            'unapprovedCommentsUrl' => route('filament.admin.resources.comments.index', ['filters[is_approved][value]' => false]),
             'editCommentUrl' => fn ($comment) => route('filament.admin.resources.comments.edit', ['record' => $comment]),
         ];
     }
