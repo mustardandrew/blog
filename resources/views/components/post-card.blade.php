@@ -78,10 +78,7 @@
             <!-- Read more button -->
             <a href="{{ route('posts.show', $post) }}" 
                class="inline-flex items-center text-sm font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 group-hover:translate-x-1 transition-all duration-300">
-                Read article
-                <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
+                Read more →
             </a>
         </div>
     </div>

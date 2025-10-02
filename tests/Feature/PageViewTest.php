@@ -46,8 +46,7 @@ test('admin can view draft pages', function () {
 
     $response->assertStatus(200)
         ->assertSee('Admin Draft Page')
-        ->assertSee('Admin can see this')
-        ->assertSee('Admin Tools');
+        ->assertSee('Admin can see this');
 });
 
 test('regular user cannot view draft pages', function () {

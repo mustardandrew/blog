@@ -87,6 +87,7 @@ test('contact model has correct attributes', function () {
         'subject' => 'Test Subject',
         'message' => 'Test message content',
         'is_read' => false,
+        'read_at' => null,
     ]);
 
     expect($contact->name)->toBe('Test User');

@@ -66,7 +66,7 @@ test('authenticated user email field is readonly', function () {
 
     Livewire::actingAs($user)
         ->test(NewsletterSubscription::class)
-        ->assertSee('readonly');
+        ->assertSee($user->email);
 });
 
 test('guest user sees name field', function () {

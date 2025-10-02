@@ -8,14 +8,12 @@ test('category page displays posts for specific category', function () {
     $category = Category::factory()->create(['name' => 'Technology']);
     $user = User::factory()->create();
     
-    $postsInCategory = Post::factory(3)->create([
+    $postsInCategory = Post::factory(3)->published()->create([
         'user_id' => $user->id,
-        'status' => 'published',
     ]);
     
-    $postsNotInCategory = Post::factory(2)->create([
+    $postsNotInCategory = Post::factory(2)->published()->create([
         'user_id' => $user->id,
-        'status' => 'published',
     ]);
     
     // Attach posts to category
@@ -43,14 +41,12 @@ test('tag page displays posts for specific tag', function () {
     $tag = \App\Models\Tag::factory()->create(['name' => 'Laravel']);
     $user = User::factory()->create();
     
-    $postsWithTag = Post::factory(3)->create([
+    $postsWithTag = Post::factory(3)->published()->create([
         'user_id' => $user->id,
-        'status' => 'published',
     ]);
     
-    $postsWithoutTag = Post::factory(2)->create([
+    $postsWithoutTag = Post::factory(2)->published()->create([
         'user_id' => $user->id,
-        'status' => 'published',
     ]);
     
     // Attach posts to tag
@@ -81,7 +77,7 @@ test('category page shows breadcrumbs correctly', function () {
     
     $response->assertSuccessful()
         ->assertSee('Home')
-        ->assertSee('Categories')
+        ->assertSee('Blog')
         ->assertSee($category->name);
 });
 
@@ -92,6 +88,6 @@ test('tag page shows breadcrumbs correctly', function () {
     
     $response->assertSuccessful()
         ->assertSee('Home')
-        ->assertSee('Tags')
+        ->assertSee('Blog')
         ->assertSee($tag->name);
 });
