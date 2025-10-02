@@ -177,33 +177,37 @@ new class extends Component {
     }
 } ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Breadcrumbs -->
-    <flux:breadcrumbs class="mb-8">
-        <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item href="{{ route('dashboard') }}" wire:navigate>Dashboard</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>Settings</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>Two-Factor Authentication</flux:breadcrumbs.item>
-    </flux:breadcrumbs>
-    
-    <!-- Page Title -->
-    <div class="mb-8">
-        <flux:heading size="xl">Two-Factor Authentication</flux:heading>
-    </div>
-    
-    <!-- Main content -->
-    <div class="flex gap-6">
-        <!-- Sidebar -->
-        <x-dashboard-sidebar />
+<div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs -->
+        <flux:breadcrumbs class="mb-8">
+            <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('dashboard') }}" wire:navigate>Dashboard</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Settings</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Two-Factor Authentication</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+        
+        <!-- Page Title -->
+        <div class="mb-8">
+            <flux:heading size="xl">Two-Factor Authentication</flux:heading>
+        </div>
+        
+        <!-- Main content -->
+        <div class="flex gap-6">
+            <!-- Sidebar -->
+            <x-dashboard-sidebar />
 
-        <!-- Content Area -->
-        <div class="flex-1 space-y-6">
-            @include('partials.settings-heading')
+            <!-- Content Area -->
+            <div class="flex-1 space-y-6">
+                <div class="relative mb-6 w-full">
+                <flux:heading size="xl" level="1">{{ __('Two Factor Authentication') }}</flux:heading>
+                <flux:subheading size="lg" class="mb-6">{{ __('Manage your two-factor authentication settings') }}</flux:subheading>
+                <flux:separator variant="subtle" />
+            </div>
 
-    <x-settings.layout
-        :heading="__('Two Factor Authentication')"
-        :subheading="__('Manage your two-factor authentication settings')"
-    >
+            <div class="space-y-6">
+
+                <div class="max-w-lg">
         <div class="flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
             @if ($twoFactorEnabled)
                 <div class="space-y-4">
@@ -249,7 +253,9 @@ new class extends Component {
                 </div>
             @endif
         </div>
-    </x-settings.layout>
+                </div>
+            </div>
+        </div>
     </div>
 
     <flux:modal
@@ -403,6 +409,7 @@ new class extends Component {
             @endif
         </div>
     </flux:modal>
+</div>
         </div>
     </div>
 </div>

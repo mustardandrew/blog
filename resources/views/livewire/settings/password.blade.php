@@ -58,9 +58,15 @@ new class extends Component {
 
         <!-- Content Area -->
         <div class="flex-1 space-y-6">
-            @include('partials.settings-heading')
+            <div class="relative mb-6 w-full">
+                <flux:heading size="xl" level="1">{{ __('Update password') }}</flux:heading>
+                <flux:subheading size="lg" class="mb-6">{{ __('Ensure your account is using a long, random password to stay secure') }}</flux:subheading>
+                <flux:separator variant="subtle" />
+            </div>
 
-    <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
+            <div class="space-y-6">
+
+                <div class="max-w-lg">
         <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
             <flux:input
                 wire:model="current_password"
@@ -96,7 +102,8 @@ new class extends Component {
                 </x-action-message>
             </div>
             </form>
-        </x-settings.layout>
+                </div>
+            </div>
         </div>
     </div>
 </div>
