@@ -423,7 +423,7 @@ html:not(.dark) .unmoderated-comments-widget .recent-header-icon {
                     @endforeach
                 </div>
                 
-                @if($recentUnapproved->count() >= 3)
+                @if($recentUnapproved->count() > 0)
                 <div class="view-all-section">
                     <x-filament::link
                         :href="$unapprovedCommentsUrl"

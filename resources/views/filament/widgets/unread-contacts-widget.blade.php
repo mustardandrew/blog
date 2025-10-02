@@ -424,7 +424,7 @@ html:not(.dark) .unread-contacts-widget .recent-header-icon {
                     @endforeach
                 </div>
                 
-                @if($recentUnread->count() >= 5)
+                @if($recentUnread->count() > 0)
                 <div class="view-all-section">
                     <x-filament::link
                         :href="$unreadContactsUrl"
