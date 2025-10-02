@@ -37,16 +37,28 @@ new class extends Component {
     }
 }; ?>
 
-<section class="w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Breadcrumbs -->
-        <flux:breadcrumbs class="mb-8">
-            <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('profile.edit') }}" wire:navigate>Settings</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>Password</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-        
-        @include('partials.settings-heading')
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Breadcrumbs -->
+    <flux:breadcrumbs class="mb-8">
+        <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}" wire:navigate>Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>Settings</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>Password</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+    
+    <!-- Page Title -->
+    <div class="mb-8">
+        <flux:heading size="xl">Password Settings</flux:heading>
+    </div>
+    
+    <!-- Main content -->
+    <div class="flex gap-6">
+        <!-- Sidebar -->
+        <x-dashboard-sidebar />
+
+        <!-- Content Area -->
+        <div class="flex-1 space-y-6">
+            @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
         <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
@@ -83,7 +95,8 @@ new class extends Component {
                     {{ __('Saved.') }}
                 </x-action-message>
             </div>
-        </form>
-    </x-settings.layout>
+            </form>
+        </x-settings.layout>
+        </div>
     </div>
-</section>
+</div>
