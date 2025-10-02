@@ -249,6 +249,22 @@ html:not(.dark) .unread-contacts-widget .stat-card {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
 
+html:not(.dark) .unread-contacts-widget .stat-card.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+html:not(.dark) .unread-contacts-widget .stat-card.primary {
+    border-left: 4px solid #3b82f6;
+}
+
+html:not(.dark) .unread-contacts-widget .stat-card.success {
+    border-left: 4px solid #22c55e;
+}
+
+html:not(.dark) .unread-contacts-widget .stat-card.gray {
+    border-left: 4px solid #9ca3af;
+}
+
 html:not(.dark) .unread-contacts-widget .message-card {
     background: #ffffff;
     border: 1px solid #d1d5db;
