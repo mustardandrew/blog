@@ -17,6 +17,11 @@
                     <flux:navbar.item icon="rectangle-stack" :href="route('posts.index')" :current="request()->routeIs('posts.*')" wire:navigate>
                         {{ __('Blog') }}
                     </flux:navbar.item>
+                    
+                    <flux:navbar.item icon="envelope" :href="route('contact')" :current="request()->routeIs('contact')" wire:navigate>
+                        {{ __('Contact') }}
+                    </flux:navbar.item>
+                    
                     @auth
                         <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
