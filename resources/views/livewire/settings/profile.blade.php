@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = '';
     public string $email = '';
+    public string $bio = '';
 
     /**
      * Mount the component.
@@ -17,6 +18,7 @@ new class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->bio = Auth::user()->bio ?? '';
     }
 
     /**
@@ -28,7 +30,7 @@ new class extends Component {
 
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-
+            'bio' => ['nullable', 'string', 'max:500'],
             'email' => [
                 'required',
                 'string',
@@ -92,7 +94,7 @@ new class extends Component {
         <div class="flex-1 space-y-6">
             <div class="relative mb-6 w-full">
                 <flux:heading size="xl" level="1">{{ __('Profile') }}</flux:heading>
-                <flux:subheading size="lg" class="mb-6">{{ __('Update your name and email address') }}</flux:subheading>
+                <flux:subheading size="lg" class="mb-6">{{ __('Update your profile information') }}</flux:subheading>
                 <flux:separator variant="subtle" />
             </div>
 
@@ -102,6 +104,8 @@ new class extends Component {
                 <div class="max-w-lg">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
             <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+
+            <flux:textarea wire:model="bio" :label="__('Bio')" rows="3" :placeholder="__('Tell us about yourself...')" />
 
             <div>
                 <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
