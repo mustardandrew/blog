@@ -179,6 +179,13 @@ new class extends Component {
 
 <section class="w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs -->
+        <flux:breadcrumbs class="mb-8">
+            <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('profile.edit') }}" wire:navigate>Settings</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Two-Factor Authentication</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+        
         @include('partials.settings-heading')
 
     <x-settings.layout

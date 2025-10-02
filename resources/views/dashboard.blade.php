@@ -1,5 +1,11 @@
 <x-layouts.app :title="__('Dashboard')">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs -->
+        <flux:breadcrumbs class="mb-8">
+            <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item>Dashboard</flux:breadcrumbs.item>
+        </flux:breadcrumbs>
+        
         <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
         <!-- Welcome Section with User Avatar -->
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
