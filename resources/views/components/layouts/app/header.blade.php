@@ -55,6 +55,21 @@
                     </flux:tooltip>
                 </flux:navbar>
 
+                <!-- Theme Toggle -->
+                <flux:dropdown x-data align="end">
+                    <flux:button variant="subtle" square class="group" aria-label="Preferred color scheme">
+                        <flux:icon.sun x-show="$flux.appearance === 'light'" variant="mini" class="text-zinc-500 dark:text-white" />
+                        <flux:icon.moon x-show="$flux.appearance === 'dark'" variant="mini" class="text-zinc-500 dark:text-white" />
+                        <flux:icon.moon x-show="$flux.appearance === 'system' && $flux.dark" variant="mini" />
+                        <flux:icon.sun x-show="$flux.appearance === 'system' && ! $flux.dark" variant="mini" />
+                    </flux:button>
+                    <flux:menu>
+                        <flux:menu.item icon="sun" x-on:click="$flux.appearance = 'light'">Light</flux:menu.item>
+                        <flux:menu.item icon="moon" x-on:click="$flux.appearance = 'dark'">Dark</flux:menu.item>
+                        <flux:menu.item icon="computer-desktop" x-on:click="$flux.appearance = 'system'">System</flux:menu.item>
+                    </flux:menu>
+                </flux:dropdown>
+
                 <!-- Desktop User Menu -->
                 <flux:dropdown position="top" align="end">
                     <flux:profile
@@ -143,6 +158,18 @@
                     {{ __('Documentation') }}
                     </flux:navlist.item>
                 </flux:navlist>
+
+                <!-- Mobile Theme Toggle -->
+                <div class="px-4 py-2">
+                    <flux:field>
+                        <flux:label>{{ __('Theme') }}</flux:label>
+                        <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" class="grid grid-cols-3 gap-1">
+                            <flux:radio value="light" icon="sun" @click="$flux.appearance = 'light'">{{ __('Light') }}</flux:radio>
+                            <flux:radio value="dark" icon="moon" @click="$flux.appearance = 'dark'">{{ __('Dark') }}</flux:radio>
+                            <flux:radio value="system" icon="computer-desktop" @click="$flux.appearance = 'system'">{{ __('System') }}</flux:radio>
+                        </flux:radio.group>
+                    </flux:field>
+                </div>
             </flux:sidebar>
 
             <main class="flex-1 lg:ml-0">
