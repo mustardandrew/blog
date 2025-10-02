@@ -164,9 +164,9 @@
                     <flux:field>
                         <flux:label>{{ __('Theme') }}</flux:label>
                         <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" class="grid grid-cols-3 gap-1">
-                            <flux:radio value="light" icon="sun" @click="$flux.appearance = 'light'">{{ __('Light') }}</flux:radio>
-                            <flux:radio value="dark" icon="moon" @click="$flux.appearance = 'dark'">{{ __('Dark') }}</flux:radio>
-                            <flux:radio value="system" icon="computer-desktop" @click="$flux.appearance = 'system'">{{ __('System') }}</flux:radio>
+                            <flux:radio value="light" icon="sun" @click="$flux.appearance = 'light'"></flux:radio>
+                            <flux:radio value="dark" icon="moon" @click="$flux.appearance = 'dark'"></flux:radio>
+                            <flux:radio value="system" icon="computer-desktop" @click="$flux.appearance = 'system'"></flux:radio>
                         </flux:radio.group>
                     </flux:field>
                 </div>
