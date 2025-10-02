@@ -174,6 +174,28 @@
     min-width: 0;
 }
 
+.unread-contacts-widget .message-body {
+    margin-top: 0.25rem;
+    display: flex;
+}
+
+.unread-contacts-widget .message-body > div:first-child {
+    flex: 1;
+}
+
+.unread-contacts-widget .message-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.unread-contacts-widget .message-card:hover .message-actions {
+    opacity: 1;
+}
+
 .unread-contacts-widget .message-header {
     display: flex;
     align-items: center;
@@ -357,13 +379,30 @@ html:not(.dark) .unread-contacts-widget .recent-header-icon {
                                         {{ $contact->created_at->diffForHumans() }}
                                     </p>
                                 </div>
-                                <p class="message-subject">
-                                    {{ Str::limit($contact->subject, 50) }}
-                                </p>
-                                <p class="message-preview">
-                                    {{ Str::limit($contact->message, 80) }}
-                                </p>
+                                <div class="message-body">
+                                    <div>
+                                        <p class="message-subject">
+                                            {{ Str::limit($contact->subject, 50) }}
+                                        </p>
+                                        <p class="message-preview">
+                                            {{ Str::limit($contact->message, 80) }}
+                                        </p>
+                                    </div>
+                                    <div class="message-actions">
+                                        <x-filament::button
+                                            color="gray"
+                                            size="xs"
+                                            :href="$editContactUrl($contact)"
+                                            tag="a"
+                                            icon="heroicon-o-pencil"
+                                            :tooltip="'Edit ' . $contact->name"
+                                        >
+                                            Edit
+                                        </x-filament::button>
+                                    </div>
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                     @endforeach

@@ -96,3 +96,17 @@ test('widget displays recent message content preview', function () {
         ->assertSee('Urgent inquiry about services')
         ->assertSee('I need more information about your pricing');
 });
+
+test('widget shows edit button for each contact', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
+    $contact = Contact::factory()->unread()->create([
+        'name' => 'Test User',
+        'subject' => 'Test Subject',
+    ]);
+
+    Livewire::test(UnreadContactsWidget::class)
+        ->assertSee('Edit')
+        ->assertSee('Test User')
+        ->assertSeeHtml('href="'.route('filament.admin.resources.contacts.edit', ['record' => $contact]).'"');
+});

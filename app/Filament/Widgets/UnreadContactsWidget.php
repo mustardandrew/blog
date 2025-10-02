@@ -44,6 +44,7 @@ class UnreadContactsWidget extends Widget
             'recentUnread' => $recentUnread,
             'contactsIndexUrl' => route('filament.admin.resources.contacts.index'),
             'unreadContactsUrl' => route('filament.admin.resources.contacts.index', ['tableFilters[is_read][value]' => false]),
+            'editContactUrl' => fn ($contact) => route('filament.admin.resources.contacts.edit', ['record' => $contact]),
         ];
     }
 
