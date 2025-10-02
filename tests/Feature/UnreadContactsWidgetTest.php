@@ -27,7 +27,7 @@ test('widget shows correct unread count', function () {
 
     Livewire::test(UnreadContactsWidget::class)
         ->assertSee('3') // Should see unread count
-        ->assertSee('Unread Messages');
+        ->assertSee('new messages'); // Updated text for custom widget
 });
 
 test('widget shows recent messages preview', function () {
@@ -67,6 +67,32 @@ test('widget shows today contacts when available', function () {
     ]);
 
     Livewire::test(UnreadContactsWidget::class)
-        ->assertSee("Today's Messages")
+        ->assertSee('Today') // Updated to match new widget text
         ->assertSee('1'); // Should show 1 for today's count
+});
+
+test('widget shows total contacts count', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
+    Contact::factory()->unread()->count(2)->create();
+    Contact::factory()->read()->count(3)->create();
+
+    Livewire::test(UnreadContactsWidget::class)
+        ->assertSee('5') // Total count
+        ->assertSee('Total');
+});
+
+test('widget displays recent message content preview', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
+    Contact::factory()->unread()->create([
+        'name' => 'Jane Smith',
+        'subject' => 'Urgent inquiry about services',
+        'message' => 'I need more information about your pricing and availability for next month.',
+    ]);
+
+    Livewire::test(UnreadContactsWidget::class)
+        ->assertSee('Jane Smith')
+        ->assertSee('Urgent inquiry about services')
+        ->assertSee('I need more information about your pricing');
 });
