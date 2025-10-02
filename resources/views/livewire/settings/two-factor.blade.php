@@ -178,7 +178,8 @@ new class extends Component {
 } ?>
 
 <section class="w-full">
-    @include('partials.settings-heading')
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        @include('partials.settings-heading')
 
     <x-settings.layout
         :heading="__('Two Factor Authentication')"
@@ -230,6 +231,7 @@ new class extends Component {
             @endif
         </div>
     </x-settings.layout>
+    </div>
 
     <flux:modal
         name="two-factor-setup-modal"

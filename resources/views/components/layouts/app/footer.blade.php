@@ -1,12 +1,19 @@
-<footer class="w-full bg-zinc-50 border-t border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 mt-auto">
-    <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+<footer class="relative w-full bg-gradient-to-br from-zinc-100 via-zinc-50 to-amber-50/30 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-800 border-t border-zinc-200/50 dark:border-zinc-800/50 mt-auto overflow-hidden">
+    <!-- Subtle gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-100/50 to-transparent dark:from-zinc-900/50"></div>
+    
+    <!-- Decorative elements -->
+    <div class="absolute top-0 right-0 w-64 h-32 bg-gradient-to-bl from-amber-100/20 to-transparent dark:from-amber-900/10 rounded-full blur-2xl"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-24 bg-gradient-to-tr from-orange-100/20 to-transparent dark:from-orange-900/10 rounded-full blur-2xl"></div>
+    
+    <div class="relative mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
             <!-- Company Info -->
             <div class="lg:col-span-1">
                 <div class="flex items-center space-x-2 mb-4">
                     <x-app-logo />
                 </div>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                <p class="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
                     Discover fascinating books, honest reviews, and literary insights. Your trusted companion in the world of literature, where every page turns into a new adventure.
                 </p>
                 <div class="mt-6 flex space-x-4">
@@ -119,19 +126,19 @@
         </div>
 
         <!-- Bottom Section -->
-        <div class="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-700">
+        <div class="relative mt-12 pt-8 border-t border-zinc-200/50 dark:border-zinc-700/50">
             <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
                     © {{ date('Y') }} Literary Insights. Sharing the love of books, one review at a time.
                 </p>
                 <div class="flex space-x-6">
-                    <a href="#" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                    <a href="#" class="text-sm text-zinc-600 hover:text-amber-600 dark:text-zinc-400 dark:hover:text-amber-400 transition-colors duration-200">
                         Privacy Policy
                     </a>
-                    <a href="#" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                    <a href="#" class="text-sm text-zinc-600 hover:text-amber-600 dark:text-zinc-400 dark:hover:text-amber-400 transition-colors duration-200">
                         Terms of Service
                     </a>
-                    <a href="{{ route('contact') }}" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100" wire:navigate>
+                    <a href="{{ route('contact') }}" class="text-sm text-zinc-600 hover:text-amber-600 dark:text-zinc-400 dark:hover:text-amber-400 transition-colors duration-200" wire:navigate>
                         Contact
                     </a>
                 </div>
