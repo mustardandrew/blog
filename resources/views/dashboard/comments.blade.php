@@ -15,7 +15,9 @@
         <!-- Main content -->
         <div class="flex gap-6">
             <!-- Sidebar -->
-            <x-dashboard-sidebar />
+            <div class="sticky top-6 self-start">
+                <x-dashboard-sidebar />
+            </div>
 
             <!-- Content Area -->
             <div class="flex-1 space-y-6">

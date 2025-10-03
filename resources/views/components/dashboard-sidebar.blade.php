@@ -1,6 +1,6 @@
 @props(['current' => null])
 
-<div class="w-64 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 h-fit rounded-xl">
+<div class="w-64 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl">
     <div class="p-6">
         <!-- User info at top -->
         <div class="flex items-center mb-6 pb-4 border-b border-zinc-200 dark:border-zinc-700">
@@ -29,6 +29,11 @@
                 {{ __('Dashboard') }}
             </a>
 
+            <!-- Divider -->
+            <div class="border-t border-zinc-200 dark:border-zinc-700 my-4"></div>
+
+            <p class="px-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Functionalities') }}</p>
+
             <!-- My Comments -->
             <a href="{{ route('dashboard.comments') }}" 
                wire:navigate
@@ -38,6 +43,9 @@
                 </svg>
                 {{ __('My Comments') }}
             </a>
+
+            <!-- Divider -->
+            <div class="border-t border-zinc-200 dark:border-zinc-700 my-4"></div>
 
             <p class="px-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Settings') }}</p>
                 
