@@ -21,7 +21,7 @@
 
             <!-- Content Area -->
             <div class="flex-1 space-y-6">
-                <livewire:dashboard.comments-list />
+                <livewire:dashboard.comments-management />
             </div>
         </div>
     </div>

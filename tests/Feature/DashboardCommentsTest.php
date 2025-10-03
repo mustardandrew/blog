@@ -60,7 +60,7 @@ test('user can search their comments', function () {
 
     // Test using Livewire component test
     \Livewire\Livewire::actingAs($user)
-        ->test('dashboard.comments-list')
+        ->test(\App\Livewire\Dashboard\CommentsManagement::class)
         ->set('search', 'Laravel')
         ->assertSee('Great Laravel tutorial!')
         ->assertDontSee('Nice PHP explanation');
@@ -126,4 +126,39 @@ test('comment approval status is displayed correctly', function () {
         ->get(route('dashboard.comments'))
         ->assertSee('Approved')
         ->assertSee('Pending Review');
+});
+
+test('user can delete their own comment', function () {
+    $user = User::factory()->create();
+    $post = Post::factory()->create();
+    $comment = Comment::factory()->create([
+        'user_id' => $user->id,
+        'post_id' => $post->id,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(\App\Livewire\Dashboard\CommentsManagement::class)
+        ->call('deleteComment', $comment->id)
+        ->assertHasNoErrors();
+
+    expect(Comment::find($comment->id))->toBeNull();
+});
+
+test('user cannot delete other users comments', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+    $post = Post::factory()->create();
+    $comment = Comment::factory()->create([
+        'user_id' => $otherUser->id,
+        'post_id' => $post->id,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(\App\Livewire\Dashboard\CommentsManagement::class)
+        ->call('deleteComment', $comment->id)
+        ->assertHasErrors('general');
+
+    expect(Comment::find($comment->id))->not()->toBeNull();
 });
