@@ -56,10 +56,6 @@
                 
                 {{-- Comment Actions --}}
                 <div class="flex items-center justify-between pt-4 border-t border-zinc-200 dark:border-zinc-700">
-                    <flux:text size="sm" variant="muted">
-                        By {{ $comment->author_display_name }}
-                    </flux:text>
-                    
                     <div class="flex items-center gap-2">
                         <flux:button 
                             variant="ghost" 

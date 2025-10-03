@@ -12,14 +12,14 @@
         </div>
         
         <!-- Main content -->
-        <div class="flex gap-6">
+        <div class="flex gap-3 md:gap-6">
             <!-- Sidebar -->
             <div class="sticky top-6 self-start">
                 <x-dashboard-sidebar />
             </div>
 
             <!-- Content Area -->
-            <div class="flex-1 space-y-6">
+            <div class="flex-1 space-y-6 min-w-0">
 
                 <!-- Welcome Section with User Avatar -->
                 <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6">

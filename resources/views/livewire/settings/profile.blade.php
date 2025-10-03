@@ -86,12 +86,15 @@ new class extends Component {
     </div>
     
     <!-- Main content -->
-    <div class="flex gap-6">
-        <!-- Sidebar -->
-        <x-dashboard-sidebar />
+            <!-- Main content -->
+        <div class="flex gap-3 md:gap-6">
+            <!-- Sidebar -->
+            <div class="sticky top-6 self-start">
+                <x-dashboard-sidebar />
+            </div>
 
-        <!-- Content Area -->
-        <div class="flex-1 space-y-6">
+            <!-- Content Area -->
+            <div class="flex-1 space-y-6 min-w-0">
             <div class="relative mb-6 w-full">
                 <flux:heading size="xl" level="1">{{ __('Profile') }}</flux:heading>
                 <flux:subheading size="lg" class="mb-6">{{ __('Update your profile information') }}</flux:subheading>

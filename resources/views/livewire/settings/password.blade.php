@@ -52,12 +52,12 @@ new class extends Component {
     </div>
     
     <!-- Main content -->
-    <div class="flex gap-6">
+    <div class="flex gap-3 md:gap-6">
         <!-- Sidebar -->
         <x-dashboard-sidebar />
 
         <!-- Content Area -->
-        <div class="flex-1 space-y-6">
+        <div class="flex-1 space-y-6 min-w-0">
             <div class="relative mb-6 w-full">
                 <flux:heading size="xl" level="1">{{ __('Update password') }}</flux:heading>
                 <flux:subheading size="lg" class="mb-6">{{ __('Ensure your account is using a long, random password to stay secure') }}</flux:subheading>
