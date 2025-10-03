@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+
+    // Dashboard comments page
+    Route::view('dashboard/comments', 'dashboard.comments')->name('dashboard.comments');
 });
 
 // Posts routes
