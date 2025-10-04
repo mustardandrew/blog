@@ -138,3 +138,9 @@ select:focus[data-flux-control] {
 .post-content img {
     @apply rounded-lg shadow-lg my-8 w-full;
 }
+
+@layer components {
+  .page-zone {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+}

@@ -6,7 +6,7 @@ use Livewire\Volt\Volt;
 
 Route::get('/', [App\Http\Controllers\PostController::class, 'home'])->name('home');
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', 'dashboard.show')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

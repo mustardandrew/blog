@@ -1,30 +1,29 @@
 @php
     $metaTitle = $post->meta_title ?: $post->title;
     $metaDescription = $post->meta_description ?: $post->excerpt ?: Str::limit(strip_tags($post->content), 160);
+    $metaKeywords = $post->meta_keywords ? implode(', ', $post->meta_keywords) : null;
 @endphp
 
 <x-layouts.app 
     :title="$metaTitle"
     :description="$metaDescription"
-    :keywords="$post->meta_keywords ? implode(', ', $post->meta_keywords) : null">
+    :keywords="$metaKeywords">
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Breadcrumbs -->
-        <flux:breadcrumbs class="mb-8">
-            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
-            @if($post->categories->isNotEmpty())
-                <flux:breadcrumbs.item href="{{ route('categories.show', $post->categories->first()) }}">
-                    {{ $post->categories->first()->name }}
-                </flux:breadcrumbs.item>
-            @endif
-            <flux:breadcrumbs.item>{{ Str::limit($post->title, 50) }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
+    <div class="page-zone">
+
+        @php
+            $breadcrumbs = [__('Blog') => route('posts.index')];
+            if ($post->categories->isNotEmpty()) {
+                $breadcrumbs[$post->categories->first()->name] = route('categories.show', $post->categories->first());
+            }
+            $breadcrumbs[Str::limit($post->title, 50)] = null;
+        @endphp
+        @include('partials.breadcrumbs', ['breadcrumbs' => $breadcrumbs])
 
         @if($post->isDraft() && auth()->check() && auth()->user()->is_admin)
             <flux:callout variant="warning" class="mb-8">
                 <flux:callout.text>
-                    This post is in draft mode and is only visible to administrators.
+                    {{ __('This post is in draft mode and is only visible to administrators.') }}
                 </flux:callout.text>
             </flux:callout>
         @endif

@@ -7,25 +7,18 @@
     :title="$metaTitle"
     :description="$metaDescription">
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Breadcrumbs -->
-        <flux:breadcrumbs class="mb-8">
-            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ $tag->name }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
+    <div class="page-zone">
 
-        <div class="mb-8">
-            <flux:heading size="xl"># {{ $tag->name }}</flux:heading>
-            @if($tag->description)
-                <flux:text class="mt-2 text-zinc-600 dark:text-zinc-400">
-                    {{ $tag->description }}
-                </flux:text>
-            @endif
-            <flux:text class="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
-                {{ $posts->total() }} {{ Str::plural('post', $posts->total()) }} tagged with this
-            </flux:text>
-        </div>
+        @include('partials.breadcrumbs', ['breadcrumbs' => [
+            __('Blog') => route('posts.index'),
+            $tag->name => null,
+        ]])
+
+        @include('partials.heading', [
+            'title' => "# {$tag->name}",
+            'description' => $tag->description,
+            'subDescription' => "{$posts->total()} " . Str::plural('post', $posts->total()) . " tagged with this"
+        ])
 
         @if($posts->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -40,7 +33,7 @@
         @else
             <div class="text-center py-12">
                 <flux:text size="lg" class="text-zinc-500 dark:text-zinc-400">
-                    No posts found with this tag.
+                    {{ __('No posts found with this tag.') }}
                 </flux:text>
             </div>
         @endif

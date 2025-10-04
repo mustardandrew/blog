@@ -1,19 +1,19 @@
 @php
     $metaTitle = $page->meta_title ?: $page->title;
     $metaDescription = $page->meta_description ?: $page->excerpt ?: Str::limit(strip_tags($page->content), 160);
+    $metaKeywords = $page->meta_keywords;
 @endphp
 
 <x-layouts.app 
     :title="$metaTitle"
     :description="$metaDescription"
-    :keywords="$page->meta_keywords">
+    :keywords="$metaKeywords">
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Breadcrumbs -->
-        <flux:breadcrumbs class="mb-8">
-            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>{{ Str::limit($page->title, 50) }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
+    <div class="page-zone">
+
+        @include('partials.breadcrumbs', ['breadcrumbs' => [
+            Str::limit($page->title, 50) => null,
+        ]])
 
         <!-- Admin Draft Notice -->
         @auth
