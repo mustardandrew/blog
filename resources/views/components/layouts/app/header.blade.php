@@ -324,27 +324,22 @@
                     <!-- Search Panel JavaScript -->
                     <script>
                         function openSearchPanel() {
-                            console.log('Opening search panel...');
                             // Try multiple approaches to ensure the search panel opens
                             try {
                                 // First try Alpine dispatch
                                 if (window.Alpine) {
-                                    console.log('Trying Alpine approach...');
                                     window.Alpine.store ? Alpine.store('search', { isOpen: true }) : null;
                                 }
                                 
                                 // Try Livewire event dispatch
                                 if (window.Livewire) {
-                                    console.log('Trying Livewire dispatch...');
                                     Livewire.dispatch('open-search');
                                 }
                                 
                                 // Fallback: direct DOM manipulation
                                 setTimeout(() => {
-                                    console.log('Trying DOM manipulation fallback...');
                                     const searchPanel = document.querySelector('[x-data*="isOpen"]');
                                     if (searchPanel && searchPanel.__x) {
-                                        console.log('Setting isOpen via Alpine component...');
                                         searchPanel.__x.$data.isOpen = true;
                                     }
                                 }, 50);
@@ -352,22 +347,17 @@
                             } catch (error) {
                                 console.warn('Search panel opening error:', error);
                                 // Final fallback - try classic event dispatch
-                                console.log('Trying custom event fallback...');
                                 document.dispatchEvent(new CustomEvent('open-search'));
                             }
                         }
                         
                         function initializeSearchPanel() {
-                            console.log('Initializing search panel...');
                             const searchButton = document.getElementById('search-button');
                             if (searchButton) {
-                                console.log('Search button found, attaching listeners');
                                 // Remove any existing listeners
                                 searchButton.removeEventListener('click', handleSearchClick);
                                 // Add new listener
                                 searchButton.addEventListener('click', handleSearchClick);
-                            } else {
-                                console.warn('Search button not found during initialization');
                             }
                         }
                         

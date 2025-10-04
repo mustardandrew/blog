@@ -17,18 +17,14 @@
             
             selectNext() {
                 const results = this.$refs.resultsContainer?.querySelectorAll('[data-result-index]') || [];
-                console.log('SelectNext - current index:', this.selectedIndex, 'results count:', results.length);
                 if (results.length > 0) {
                     this.selectedIndex = Math.min(this.selectedIndex + 1, results.length - 1);
-                    console.log('New selected index:', this.selectedIndex);
                     this.scrollToSelected();
                 }
             },
             
             selectPrevious() {
-                console.log('SelectPrevious - current index:', this.selectedIndex);
                 this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
-                console.log('New selected index:', this.selectedIndex);
                 this.scrollToSelected();
             },
             
@@ -43,17 +39,13 @@
             },
             
             openSelected() {
-                console.log('Opening selected item, index:', this.selectedIndex);
                 const results = this.$refs.resultsContainer?.querySelectorAll('[data-result-index]') || [];
-                console.log('Found results:', results.length);
                 
                 if (this.selectedIndex >= 0 && results[this.selectedIndex]) {
                     const selectedResult = results[this.selectedIndex];
-                    console.log('Selected result element:', selectedResult);
                     
                     // The selected result IS the link element
                     if (selectedResult.tagName.toLowerCase() === 'a') {
-                        console.log('Selected result is a link, href:', selectedResult.href);
                         // Close search first
                         this.$wire.closeSearch();
                         
@@ -62,16 +54,12 @@
                     } else {
                         // Fallback: look for a link inside
                         const link = selectedResult.querySelector('a');
-                        console.log('Found link inside:', link);
                         
                         if (link) {
-                            console.log('Link href:', link.href);
                             this.$wire.closeSearch();
                             window.location.href = link.href;
                         }
                     }
-                } else {
-                    console.log('No selected item or results');
                 }
             },
             
@@ -105,11 +93,6 @@
             <!-- Search Input -->
             <div class="p-4 border-b border-zinc-200 dark:border-zinc-700">
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
                                             <flux:input 
                             wire:model.live.debounce.300ms="query"
                             placeholder="Пошук статей..."
