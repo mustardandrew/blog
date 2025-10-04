@@ -6,10 +6,6 @@ use Livewire\Volt\Volt;
 
 Route::get('/', [App\Http\Controllers\PostController::class, 'home'])->name('home');
 
-Route::view('dashboard', 'dashboard.show')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 

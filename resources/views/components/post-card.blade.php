@@ -75,11 +75,18 @@
                 {{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} min read
             </div>
             
-            <!-- Read more button -->
-            <a href="{{ route('posts.show', $post) }}" 
-               class="inline-flex items-center text-sm font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 group-hover:translate-x-1 transition-all duration-300">
-                Read more →
-            </a>
+            <div class="flex items-center gap-3">
+                <!-- Bookmark button -->
+                @auth
+                    @livewire('bookmark-button', ['post' => $post, 'size' => 'sm'])
+                @endauth
+                
+                <!-- Read more button -->
+                <a href="{{ route('posts.show', $post) }}" 
+                   class="inline-flex items-center text-sm font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 group-hover:translate-x-1 transition-all duration-300">
+                    Read more →
+                </a>
+            </div>
         </div>
     </div>
 </article>

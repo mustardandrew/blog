@@ -114,4 +114,42 @@ class Post extends Model
             }
         });
     }
+
+    /**
+     * Get the bookmarks for this post.
+     */
+    public function bookmarks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    /**
+     * Get users who bookmarked this post.
+     */
+    public function bookmarkedByUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'bookmarks')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
+    }
+
+    /**
+     * Check if a user has bookmarked this post.
+     */
+    public function isBookmarkedBy(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return Bookmark::isBookmarked($user->id, $this->id);
+    }
+
+    /**
+     * Get the count of bookmarks for this post.
+     */
+    public function bookmarksCount(): int
+    {
+        return $this->bookmarks()->count();
+    }
 }

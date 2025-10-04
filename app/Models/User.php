@@ -126,4 +126,30 @@ class User extends Authenticatable
     {
         return $this->newsletters()->active()->exists();
     }
+
+    /**
+     * Get the bookmarks for this user.
+     */
+    public function bookmarks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    /**
+     * Get the bookmarked posts for this user.
+     */
+    public function bookmarkedPosts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'bookmarks')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
+    }
+
+    /**
+     * Check if user has bookmarked a specific post.
+     */
+    public function hasBookmarked(Post $post): bool
+    {
+        return Bookmark::isBookmarked($this->id, $post->id);
+    }
 }

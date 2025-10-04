@@ -46,6 +46,17 @@
                 <span class="hidden md:inline">{{ __('My Comments') }}</span>
             </a>
 
+            <!-- My Bookmarks -->
+            <a href="{{ route('dashboard.bookmarks') }}" 
+               wire:navigate
+               class="flex items-center justify-center md:justify-start px-2 md:px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard.bookmarks') ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800' : 'text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800' }}"
+               title="Мої закладки">
+                <svg class="w-5 h-5 md:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                </svg>
+                <span class="hidden md:inline">Закладки</span>
+            </a>
+
             <!-- Divider -->
             <div class="border-t border-zinc-200 dark:border-zinc-700 my-3 md:my-4"></div>
 

@@ -183,6 +183,16 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- Bookmark Actions -->
+                    @auth
+                        <div class="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6">
+                            <flux:heading size="lg" class="mb-4">Bookmark this article</flux:heading>
+                            <div class="text-center">
+                                @livewire('bookmark-button', ['post' => $post])
+                            </div>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>
