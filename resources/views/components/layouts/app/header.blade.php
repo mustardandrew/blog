@@ -336,12 +336,15 @@
 
                 <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0! relative z-10">
                     <flux:tooltip :content="__('Search')" position="bottom">
-                        <flux:navbar.item 
-                            class="!h-10 [&>div>svg]:size-5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200" 
-                            icon="magnifying-glass" 
-                            href="#" 
-                            :label="__('Search')"
-                        />
+                        <button 
+                            @click="$dispatch('open-search')"
+                            class="h-10 px-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200 flex items-center justify-center" 
+                            aria-label="Search"
+                        >
+                            <svg class="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
                     </flux:tooltip>
                 </flux:navbar>
 
@@ -421,6 +424,9 @@
                     </flux:menu>
                 </flux:dropdown>
             </flux:header>
+
+            <!-- Search Panel Component -->
+            <livewire:search-panel />
 
             <!-- Mobile Menu -->
             <flux:sidebar stashable sticky class="lg:hidden border-e border-zinc-200/50 bg-gradient-to-b from-white via-zinc-50 to-white dark:border-zinc-700/50 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 backdrop-blur-xl shadow-xl shadow-zinc-900/10 dark:shadow-zinc-900/30">

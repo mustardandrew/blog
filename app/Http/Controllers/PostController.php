@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -19,20 +20,30 @@ class PostController extends Controller
         return view('welcome', compact('posts'));
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $posts = Post::with(['user', 'tags', 'categories'])
+        $query = Post::with(['user', 'tags', 'categories'])
             ->published()
-            ->latest('published_at')
-            ->paginate(12);
+            ->latest('published_at');
 
-        return view('posts.index', compact('posts'));
+        // Add search functionality
+        if ($search = $request->get('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('excerpt', 'like', '%' . $search . '%')
+                  ->orWhere('content', 'like', '%' . $search . '%');
+            });
+        }
+
+        $posts = $query->paginate(12);
+
+        return view('posts.index', compact('posts', 'search'));
     }
 
     public function show(Post $post): View
     {
         // Check if user can view this post
-        if (!$post->isPublished() && (!auth()->check() || !auth()->user()->is_admin)) {
+        if (!$post->isPublished() && (!Auth::check() || !Auth::user()->is_admin)) {
             abort(404);
         }
 
