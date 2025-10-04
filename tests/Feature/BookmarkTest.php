@@ -285,3 +285,27 @@ test('bookmark button size variants work correctly', function () {
         ->assertSet('size', 'xs')
         ->assertSee('w-3 h-3');
 });
+
+test('dashboard bookmarks displays stats correctly', function () {
+    $user = User::factory()->create();
+    $posts = Post::factory()->published()->count(3)->create();
+
+    $this->actingAs($user);
+
+    // Create bookmarks
+    foreach ($posts as $post) {
+        Bookmark::create(['user_id' => $user->id, 'post_id' => $post->id]);
+    }
+
+    $component = Livewire::test(\App\Livewire\Dashboard\Bookmarks::class);
+    
+    // Just test that stats are returned and are numeric
+    $stats = $component->get('stats');
+    
+    expect($stats)->toBeArray()
+        ->and($stats)->toHaveKeys(['total', 'recent', 'categories'])
+        ->and($stats['total'])->toBeInt()
+        ->and($stats['recent'])->toBeInt()
+        ->and($stats['categories'])->toBeInt()
+        ->and($stats['total'])->toBeGreaterThanOrEqual(3);
+});

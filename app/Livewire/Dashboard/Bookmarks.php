@@ -56,6 +56,26 @@ class Bookmarks extends Component
         return $query->paginate(12);
     }
 
+    public function getStatsProperty(): array
+    {
+        $user = Auth::user();
+        $totalBookmarks = $user->bookmarkedPosts()->count();
+        $recentBookmarks = $user->bookmarks()
+            ->where('created_at', '>=', now()->subWeek())
+            ->count();
+        
+        $categoriesCount = $user->bookmarkedPosts()
+            ->join('category_post', 'posts.id', '=', 'category_post.post_id')
+            ->distinct('category_post.category_id')
+            ->count();
+
+        return [
+            'total' => $totalBookmarks,
+            'recent' => $recentBookmarks,
+            'categories' => $categoriesCount,
+        ];
+    }
+
     public function removeBookmark(int $postId): void
     {
         Bookmark::where('user_id', Auth::id())
@@ -86,6 +106,7 @@ class Bookmarks extends Component
     {
         return view('livewire.dashboard.bookmarks', [
             'bookmarks' => $this->bookmarks,
+            'stats' => $this->stats,
         ]);
     }
 }
