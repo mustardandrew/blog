@@ -1,13 +1,11 @@
-@php
-    $metaTitle = __('All posts');
-    $metaDescription = __('Browse all posts');
-    $metaKeywords = __('blog, posts');
-@endphp
-
 <x-layouts.app 
-    :title="$metaTitle"
-    :description="$metaDescription"
-    :keywords="$metaKeywords">
+    title="{{ page_title('blog', __('All posts')) }}"
+    description="{{ page_description('blog', __('Browse all posts')) }}"
+    keywords="{{ page_keywords('blog') ?? __('blog, posts') }}">
+    
+    @push('meta')
+        <x-seo-meta page-key="blog" />
+    @endpush
 
     <div class="page-zone">
 

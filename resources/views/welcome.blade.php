@@ -1,4 +1,11 @@
-<x-layouts.app title="LitBlog - Книжкові враження">
+<x-layouts.app 
+    title="{{ page_title('home') }}"
+    description="{{ page_description('home') }}"
+    keywords="{{ page_keywords('home') }}">
+    
+    @push('meta')
+        <x-seo-meta page-key="home" />
+    @endpush
     <div container class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Hero Section -->
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-zinc-900 dark:via-zinc-800 dark:to-amber-900/20 border border-amber-200/50 dark:border-amber-800/30 mb-12">
