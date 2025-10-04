@@ -1,0 +1,142 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Livewire;
+
+test('dashboard avatar page loads correctly', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+         ->get(route('dashboard.avatar'))
+         ->assertOk()
+         ->assertSeeLivewire('dashboard.avatar-upload')
+         ->assertSee('Поточний аватар')
+         ->assertSee('Завантажити новий аватар');
+});
+
+test('dashboard avatar page requires authentication', function () {
+    $this->get(route('dashboard.avatar'))
+         ->assertRedirect(route('login'));
+});
+
+test('avatar upload component renders correctly', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->assertSet('currentAvatar', null)
+        ->assertSee('Поточний аватар')
+        ->assertSee('Завантажити новий аватар');
+});
+
+test('user can upload avatar', function () {
+    Storage::fake('public');
+    
+    $user = User::factory()->create(['avatar' => null]);
+    $this->actingAs($user);
+
+    $file = UploadedFile::fake()->image('avatar.jpg', 200, 200);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->set('avatar', $file)
+        ->call('upload')
+        ->assertHasNoErrors()
+        ->assertSessionHas('message', 'Аватар успішно оновлено!');
+
+    $user->refresh();
+    expect($user->avatar)->not->toBeNull();
+    expect(Storage::disk('public')->exists($user->avatar))->toBeTrue();
+});
+
+test('avatar upload validates file type', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $file = UploadedFile::fake()->create('document.pdf', 100);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->set('avatar', $file)
+        ->call('upload')
+        ->assertHasErrors(['avatar' => 'mimes']);
+});
+
+test('avatar upload validates file size', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    // Create a file larger than 2MB
+    $file = UploadedFile::fake()->image('large-avatar.jpg')->size(3000);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->set('avatar', $file)
+        ->call('upload')
+        ->assertHasErrors(['avatar' => 'max']);
+});
+
+test('user can remove avatar', function () {
+    Storage::fake('public');
+    
+    // Create user with existing avatar
+    $avatarPath = 'avatars/test-avatar.jpg';
+    Storage::disk('public')->put($avatarPath, 'fake image content');
+    
+    $user = User::factory()->create(['avatar' => $avatarPath]);
+    $this->actingAs($user);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->call('removeAvatar')
+        ->assertSessionHas('message', 'Аватар видалено!');
+
+    $user->refresh();
+    expect($user->avatar)->toBeNull();
+    expect(Storage::disk('public')->exists($avatarPath))->toBeFalse();
+});
+
+test('removing non-existent avatar does nothing', function () {
+    $user = User::factory()->create(['avatar' => null]);
+    $this->actingAs($user);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->call('removeAvatar')
+        ->assertHasNoErrors();
+
+    $user->refresh();
+    expect($user->avatar)->toBeNull();
+});
+
+test('uploading new avatar removes old one', function () {
+    Storage::fake('public');
+    
+    // Create user with existing avatar
+    $oldAvatarPath = 'avatars/old-avatar.jpg';
+    Storage::disk('public')->put($oldAvatarPath, 'old avatar content');
+    
+    $user = User::factory()->create(['avatar' => $oldAvatarPath]);
+    $this->actingAs($user);
+
+    $newFile = UploadedFile::fake()->image('new-avatar.jpg', 200, 200);
+
+    Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
+        ->set('avatar', $newFile)
+        ->call('upload')
+        ->assertHasNoErrors();
+
+    $user->refresh();
+    expect($user->avatar)->not->toBe($oldAvatarPath);
+    expect(Storage::disk('public')->exists($oldAvatarPath))->toBeFalse();
+    expect(Storage::disk('public')->exists($user->avatar))->toBeTrue();
+});
+
+test('avatar link appears in dashboard sidebar', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+         ->get(route('dashboard'))
+         ->assertSee('Аватар')
+         ->assertSee(route('dashboard.avatar'));
+});

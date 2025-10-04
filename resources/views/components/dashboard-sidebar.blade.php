@@ -4,9 +4,17 @@
     <div class="p-2 md:p-6">
         <!-- User info at top -->
         <div class="flex items-center mb-4 md:mb-6 pb-3 md:pb-4 border-b border-zinc-200 dark:border-zinc-700">
-            <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white text-sm font-semibold mx-auto md:mx-0">
-                {{ auth()->user() ? substr(auth()->user()->name, 0, 1) : '?' }}
-            </div>
+            @if(auth()->user())
+                <img 
+                    src="{{ auth()->user()->getAvatarUrl() }}" 
+                    alt="Аватар {{ auth()->user()->name }}"
+                    class="w-8 h-8 rounded-full object-cover border-2 border-zinc-200 dark:border-zinc-700 mx-auto md:mx-0"
+                >
+            @else
+                <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white text-sm font-semibold mx-auto md:mx-0">
+                    ?
+                </div>
+            @endif
             <div class="ml-3 min-w-0 flex-1 hidden md:block">
                 <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
                     {{ auth()->user()?->name ?? 'Guest' }}
@@ -71,6 +79,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                 </svg>
                 <span class="hidden md:inline">{{ __('Profile') }}</span>
+            </a>
+
+            <!-- Avatar Upload -->
+            <a href="{{ route('dashboard.avatar') }}" 
+               wire:navigate
+               class="flex items-center justify-center md:justify-start px-2 md:px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard.avatar') ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800' : 'text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800' }}"
+               title="Аватар">
+                <svg class="w-5 h-5 md:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="hidden md:inline">Аватар</span>
             </a>
             
             <a href="{{ route('password.edit') }}" 

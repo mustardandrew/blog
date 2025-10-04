@@ -25,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard comments page
     Route::view('dashboard/comments', 'dashboard.comments')->name('dashboard.comments');
+    
+    // Dashboard avatar page
+    Route::view('dashboard/avatar', 'dashboard.avatar')->name('dashboard.avatar');
 });
 
 // Posts routes
