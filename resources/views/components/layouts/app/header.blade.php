@@ -5,27 +5,28 @@
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <div class="flex flex-col min-h-screen">
-            <flux:header container class="relative border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-                <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+            <flux:header container class="relative border-b border-zinc-200/50 bg-gradient-to-r from-white via-zinc-50 to-white dark:border-zinc-700/50 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 backdrop-blur-xl shadow-lg shadow-zinc-900/5 dark:shadow-zinc-900/20">
+                <!-- Decorative gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5 dark:from-blue-400/10 dark:via-purple-400/10 dark:to-cyan-400/10"></div>
+                
+                <flux:sidebar.toggle class="lg:hidden relative z-10 p-2 rounded-lg hover:bg-zinc-100/80 dark:hover:bg-zinc-700/80 transition-colors duration-200" icon="bars-2" inset="left" />
 
-                <a href="{{ route('home') }}" class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
-                    <x-app-logo />
+                <a href="{{ route('home') }}" class="ms-2 me-5 flex items-center space-x-3 rtl:space-x-reverse lg:ms-0 relative z-10 group" wire:navigate>
+                    <div class="p-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors duration-200">
+                        <x-app-logo />
+                    </div>
                 </a>
 
-                <flux:navbar class="-mb-px max-lg:hidden">
-                    
-                    <flux:navbar.item icon="rectangle-stack" :href="route('posts.index')" :current="request()->routeIs('posts.*')" wire:navigate>
-                        {{ __('Blog') }}
-                    </flux:navbar.item>
+                <flux:navbar class="-mb-px max-lg:hidden z-10">
                     
                     <!-- Mega Menu -->
-                    <div class="group">
-                        <button class="flex items-center gap-2 px-3 py-2 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
+                    <div class="group z-10">
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
-                            Menu
-                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <span class="font-medium">Menu</span>
+                            <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
@@ -320,46 +321,38 @@
                         document.addEventListener('livewire:load', initMegaMenu);
                     </script>
                     
-                    <flux:navbar.item icon="envelope" :href="route('contact')" :current="request()->routeIs('contact')" wire:navigate>
+                    <flux:navbar.item 
+                        icon="envelope" 
+                        :href="route('contact')" 
+                        :current="request()->routeIs('contact')" 
+                        wire:navigate
+                        class="px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200 hover:shadow-sm"
+                    >
                         {{ __('Contact') }}
                     </flux:navbar.item>
-                    
-                    @auth
-                        <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                            {{ __('Dashboard') }}
-                        </flux:navbar.item>
-                    @endauth
                 </flux:navbar>
 
                 <flux:spacer />
 
-                <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0!">
+                <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0! relative z-10">
                     <flux:tooltip :content="__('Search')" position="bottom">
-                        <flux:navbar.item class="!h-10 [&>div>svg]:size-5" icon="magnifying-glass" href="#" :label="__('Search')" />
-                    </flux:tooltip>
-                    <flux:tooltip :content="__('Repository')" position="bottom">
-                        <flux:navbar.item
-                            class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                            icon="folder-git-2"
-                            href="https://github.com/laravel/livewire-starter-kit"
-                            target="_blank"
-                            :label="__('Repository')"
-                        />
-                    </flux:tooltip>
-                    <flux:tooltip :content="__('Documentation')" position="bottom">
-                        <flux:navbar.item
-                            class="h-10 max-lg:hidden [&>div>svg]:size-5"
-                            icon="book-open-text"
-                            href="https://laravel.com/docs/starter-kits#livewire"
-                            target="_blank"
-                            label="Documentation"
+                        <flux:navbar.item 
+                            class="!h-10 [&>div>svg]:size-5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200" 
+                            icon="magnifying-glass" 
+                            href="#" 
+                            :label="__('Search')"
                         />
                     </flux:tooltip>
                 </flux:navbar>
 
                 <!-- Theme Toggle -->
-                <flux:dropdown x-data align="end" class="hidden lg:block">
-                    <flux:button variant="subtle" square class="group" aria-label="Preferred color scheme">
+                <flux:dropdown x-data align="end" class="hidden lg:block relative z-10">
+                    <flux:button 
+                        variant="subtle" 
+                        square 
+                        class="rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200" 
+                        aria-label="Preferred color scheme"
+                    >
                         <flux:icon.sun x-show="$flux.appearance === 'light'" variant="mini" class="text-zinc-500 dark:text-white" />
                         <flux:icon.moon x-show="$flux.appearance === 'dark'" variant="mini" class="text-zinc-500 dark:text-white" />
                         <flux:icon.moon x-show="$flux.appearance === 'system' && $flux.dark" variant="mini" />
@@ -373,9 +366,9 @@
                 </flux:dropdown>
 
                 <!-- Desktop User Menu -->
-                <flux:dropdown position="top" align="end">
+                <flux:dropdown position="top" align="end" class="relative z-10">
                     <flux:profile
-                        class="cursor-pointer"
+                        class="cursor-pointer hover:opacity-80 transition-opacity duration-200"
                         :initials="auth()->user() ? auth()->user()->initials() : ''"
                     />
 
@@ -403,7 +396,8 @@
                             <flux:menu.separator />
 
                             <flux:menu.radio.group>
-                                <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
+                                <flux:menu.item :href="route('dashboard')" icon="cog" wire:navigate>{{ __('Dashboard') }}</flux:menu.item>
+                                <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>{{ __('Profile') }}</flux:menu.item>
                             </flux:menu.radio.group>
 
                             <flux:menu.separator />
@@ -429,11 +423,16 @@
             </flux:header>
 
             <!-- Mobile Menu -->
-            <flux:sidebar stashable sticky class="lg:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-                <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+            <flux:sidebar stashable sticky class="lg:hidden border-e border-zinc-200/50 bg-gradient-to-b from-white via-zinc-50 to-white dark:border-zinc-700/50 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 backdrop-blur-xl shadow-xl shadow-zinc-900/10 dark:shadow-zinc-900/30">
+                <!-- Decorative gradient overlay for mobile -->
+                <div class="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-purple-500/5 to-cyan-500/5 dark:from-blue-400/10 dark:via-purple-400/10 dark:to-cyan-400/10"></div>
+                
+                <flux:sidebar.toggle class="lg:hidden relative z-10 p-2 rounded-lg hover:bg-zinc-100/80 dark:hover:bg-zinc-700/80 transition-colors duration-200" icon="x-mark" />
 
-                <a href="{{ route('dashboard') }}" class="ms-1 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                    <x-app-logo />
+                <a href="{{ route('dashboard') }}" class="ms-1 flex items-center space-x-3 rtl:space-x-reverse relative z-10" wire:navigate>
+                    <div class="p-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors duration-200">
+                        <x-app-logo />
+                    </div>
                 </a>
 
                 <flux:navlist variant="outline">
@@ -485,28 +484,19 @@
                     @endif
                 </flux:navlist>
 
-                <flux:spacer />
-
-                <flux:navlist variant="outline">
-                    <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                    </flux:navlist.item>
-
-                    <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                    </flux:navlist.item>
-                </flux:navlist>
 
                 <!-- Mobile Theme Toggle -->
-                <div class="px-4 py-2">
-                    <flux:field>
-                        <flux:label>{{ __('Theme') }}</flux:label>
-                        <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" class="grid grid-cols-3 gap-1">
-                            <flux:radio value="light" icon="sun" @click="$flux.appearance = 'light'"></flux:radio>
-                            <flux:radio value="dark" icon="moon" @click="$flux.appearance = 'dark'"></flux:radio>
-                            <flux:radio value="system" icon="computer-desktop" @click="$flux.appearance = 'system'"></flux:radio>
-                        </flux:radio.group>
-                    </flux:field>
+                <div class="px-4 py-2 relative z-10">
+                    <div class="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
+                        <flux:field>
+                            <flux:label class="text-zinc-900 dark:text-zinc-100 font-medium text-sm">{{ __('Theme') }}</flux:label>
+                            <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" class="grid grid-cols-3 gap-1 mt-2">
+                                <flux:radio value="light" icon="sun" @click="$flux.appearance = 'light'" class="hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"></flux:radio>
+                                <flux:radio value="dark" icon="moon" @click="$flux.appearance = 'dark'" class="hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"></flux:radio>
+                                <flux:radio value="system" icon="computer-desktop" @click="$flux.appearance = 'system'" class="hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"></flux:radio>
+                            </flux:radio.group>
+                        </flux:field>
+                    </div>
                 </div>
             </flux:sidebar>
 
