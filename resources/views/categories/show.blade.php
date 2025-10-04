@@ -35,7 +35,7 @@
             </div>
 
             <div class="flex justify-center mt-8">
-                {{ $posts->links('pagination::blog') }}
+                {{ $posts->links('partials.pagination.blog') }}
             </div>
         @else
             <div class="text-center py-12">
