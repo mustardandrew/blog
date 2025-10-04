@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function home(): View
     {
-        $posts = Post::with('user')
+        $posts = Post::with(['user', 'tags', 'categories'])
             ->published()
             ->latest('published_at')
             ->limit(6)
@@ -21,7 +21,7 @@ class PostController extends Controller
 
     public function index(): View
     {
-        $posts = Post::with('user')
+        $posts = Post::with(['user', 'tags', 'categories'])
             ->published()
             ->latest('published_at')
             ->paginate(12);
