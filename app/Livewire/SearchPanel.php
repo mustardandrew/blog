@@ -24,6 +24,14 @@ class SearchPanel extends Component
         $this->dispatch('focus-search-input');
     }
 
+    public function toggleSearch(): void
+    {
+        $this->isOpen = !$this->isOpen;
+        if ($this->isOpen) {
+            $this->dispatch('focus-search-input');
+        }
+    }
+
     #[On('close-search')]
     public function closeSearch(): void
     {

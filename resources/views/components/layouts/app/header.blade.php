@@ -320,6 +320,76 @@
                         // Fallback for browsers that don't support livewire:navigated
                         document.addEventListener('livewire:load', initMegaMenu);
                     </script>
+
+                    <!-- Search Panel JavaScript -->
+                    <script>
+                        function openSearchPanel() {
+                            console.log('Opening search panel...');
+                            // Try multiple approaches to ensure the search panel opens
+                            try {
+                                // First try Alpine dispatch
+                                if (window.Alpine) {
+                                    console.log('Trying Alpine approach...');
+                                    window.Alpine.store ? Alpine.store('search', { isOpen: true }) : null;
+                                }
+                                
+                                // Try Livewire event dispatch
+                                if (window.Livewire) {
+                                    console.log('Trying Livewire dispatch...');
+                                    Livewire.dispatch('open-search');
+                                }
+                                
+                                // Fallback: direct DOM manipulation
+                                setTimeout(() => {
+                                    console.log('Trying DOM manipulation fallback...');
+                                    const searchPanel = document.querySelector('[x-data*="isOpen"]');
+                                    if (searchPanel && searchPanel.__x) {
+                                        console.log('Setting isOpen via Alpine component...');
+                                        searchPanel.__x.$data.isOpen = true;
+                                    }
+                                }, 50);
+                                
+                            } catch (error) {
+                                console.warn('Search panel opening error:', error);
+                                // Final fallback - try classic event dispatch
+                                console.log('Trying custom event fallback...');
+                                document.dispatchEvent(new CustomEvent('open-search'));
+                            }
+                        }
+                        
+                        function initializeSearchPanel() {
+                            console.log('Initializing search panel...');
+                            const searchButton = document.getElementById('search-button');
+                            if (searchButton) {
+                                console.log('Search button found, attaching listeners');
+                                // Remove any existing listeners
+                                searchButton.removeEventListener('click', handleSearchClick);
+                                // Add new listener
+                                searchButton.addEventListener('click', handleSearchClick);
+                            } else {
+                                console.warn('Search button not found during initialization');
+                            }
+                        }
+                        
+                        function handleSearchClick(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openSearchPanel();
+                        }
+                        
+                        // Initialize on different events to ensure it works after hard refresh
+                        document.addEventListener('DOMContentLoaded', initializeSearchPanel);
+                        document.addEventListener('livewire:navigated', initializeSearchPanel);
+                        document.addEventListener('livewire:load', initializeSearchPanel);
+                        
+                        // Add keyboard shortcut (Ctrl+K or Cmd+K)
+                        document.addEventListener('keydown', function(e) {
+                            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                                e.preventDefault();
+                                openSearchPanel();
+                            }
+                        });
+                    </script>
                     
                     <flux:navbar.item 
                         icon="envelope" 
@@ -337,7 +407,8 @@
                 <flux:navbar class="me-1.5 space-x-0.5 rtl:space-x-reverse py-0! relative z-10">
                     <flux:tooltip :content="__('Search')" position="bottom">
                         <button 
-                            @click="$dispatch('open-search')"
+                            id="search-button"
+                            @click="openSearchPanel()"
                             class="h-10 px-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700/50 transition-all duration-200 flex items-center justify-center" 
                             aria-label="Search"
                         >

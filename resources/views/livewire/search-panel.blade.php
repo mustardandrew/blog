@@ -1,7 +1,84 @@
 <div>
     <!-- Search Panel Overlay -->
     <div 
-        x-data="{ isOpen: @entangle('isOpen') }"
+        x-data="{ 
+            isOpen: @entangle('isOpen'),
+            selectedIndex: -1,
+            
+            init() {
+                // Listen for custom events to open search
+                this.$nextTick(() => {
+                    document.addEventListener('open-search', () => {
+                        this.isOpen = true;
+                        this.$wire.openSearch();
+                    });
+                });
+            },
+            
+            selectNext() {
+                const results = this.$refs.resultsContainer?.querySelectorAll('[data-result-index]') || [];
+                console.log('SelectNext - current index:', this.selectedIndex, 'results count:', results.length);
+                if (results.length > 0) {
+                    this.selectedIndex = Math.min(this.selectedIndex + 1, results.length - 1);
+                    console.log('New selected index:', this.selectedIndex);
+                    this.scrollToSelected();
+                }
+            },
+            
+            selectPrevious() {
+                console.log('SelectPrevious - current index:', this.selectedIndex);
+                this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
+                console.log('New selected index:', this.selectedIndex);
+                this.scrollToSelected();
+            },
+            
+            scrollToSelected() {
+                const results = this.$refs.resultsContainer?.querySelectorAll('[data-result-index]') || [];
+                if (this.selectedIndex >= 0 && results[this.selectedIndex]) {
+                    results[this.selectedIndex].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
+            },
+            
+            openSelected() {
+                console.log('Opening selected item, index:', this.selectedIndex);
+                const results = this.$refs.resultsContainer?.querySelectorAll('[data-result-index]') || [];
+                console.log('Found results:', results.length);
+                
+                if (this.selectedIndex >= 0 && results[this.selectedIndex]) {
+                    const selectedResult = results[this.selectedIndex];
+                    console.log('Selected result element:', selectedResult);
+                    
+                    // The selected result IS the link element
+                    if (selectedResult.tagName.toLowerCase() === 'a') {
+                        console.log('Selected result is a link, href:', selectedResult.href);
+                        // Close search first
+                        this.$wire.closeSearch();
+                        
+                        // Navigate using href
+                        window.location.href = selectedResult.href;
+                    } else {
+                        // Fallback: look for a link inside
+                        const link = selectedResult.querySelector('a');
+                        console.log('Found link inside:', link);
+                        
+                        if (link) {
+                            console.log('Link href:', link.href);
+                            this.$wire.closeSearch();
+                            window.location.href = link.href;
+                        }
+                    }
+                } else {
+                    console.log('No selected item or results');
+                }
+            },
+            
+            resetSelection() {
+                this.selectedIndex = -1;
+            }
+        }"
         x-show="isOpen"
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0"
@@ -33,15 +110,17 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </div>
-                    <input
-                        wire:model.live.debounce.300ms="query"
-                        x-ref="searchInput"
-                        x-init="$wire.on('focus-search-input', () => { setTimeout(() => $refs.searchInput.focus(), 50) })"
-                        type="text"
-                        class="block w-full pl-10 pr-3 py-3 border-0 text-zinc-900 dark:text-zinc-100 bg-transparent placeholder-zinc-500 focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg"
-                        placeholder="Шукати статті..."
-                        autocomplete="off"
-                    >
+                                            <flux:input 
+                            wire:model.live.debounce.300ms="query"
+                            placeholder="Пошук статей..."
+                            class="w-full text-lg"
+                            autofocus
+                            @keydown.arrow-down.prevent="selectNext()"
+                            @keydown.arrow-up.prevent="selectPrevious()"
+                            @keydown.enter.prevent="openSelected()"
+                            @keydown.escape="$wire.closeSearch()"
+                            @input="resetSelection()"
+                        />
                     
                     <!-- Close button -->
                     <button 
@@ -56,16 +135,22 @@
             </div>
 
             <!-- Search Results -->
-            <div class="max-h-96 overflow-y-auto">
+            <div class="max-h-96 overflow-y-auto" x-ref="resultsContainer">
                 @if(strlen($query) >= 2)
                     @if($results->count() > 0)
                         <div class="py-2">
-                            @foreach($results as $post)
+                            @foreach($results as $index => $post)
                                 <a 
                                     href="{{ route('posts.show', $post->slug) }}" 
                                     wire:navigate
                                     @click="$wire.closeSearch()"
                                     class="block px-4 py-3 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors border-b border-zinc-100 dark:border-zinc-800 last:border-b-0"
+                                    :class="{
+                                        'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800': selectedIndex === {{ $index }}
+                                    }"
+                                    data-result-index="{{ $index }}"
+                                    @mouseenter="selectedIndex = {{ $index }}"
+                                    @mouseleave="selectedIndex = -1"
                                 >
                                     <div class="flex items-start gap-3">
                                         @if($post->featured_image)
