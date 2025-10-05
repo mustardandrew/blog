@@ -22,9 +22,9 @@ class AvatarUpload extends Component
     ];
 
     protected $messages = [
-        'avatar.image' => 'Файл має бути зображенням',
-        'avatar.mimes' => 'Дозволені формати: JPEG, JPG, PNG, GIF, WebP',
-        'avatar.max' => 'Розмір файлу не може перевищувати 2 МБ',
+        'avatar.image' => 'The file must be an image',
+        'avatar.mimes' => 'Allowed formats: JPEG, JPG, PNG, GIF, WebP',
+        'avatar.max' => 'The file size must not exceed 2MB',
     ];
 
     public function mount(): void
@@ -46,7 +46,7 @@ class AvatarUpload extends Component
                 try {
                     $this->upload();
                 } catch (\Exception $e) {
-                    $this->addError('avatar', 'Помилка при завантаженні файлу: ' . $e->getMessage());
+                    $this->addError('avatar', 'Error uploading file: ' . $e->getMessage());
                 } finally {
                     $this->uploading = false;
                 }
@@ -80,7 +80,7 @@ class AvatarUpload extends Component
 
         $this->dispatch('avatar-updated');
 
-        session()->flash('message', 'Аватар успішно оновлено!');
+        session()->flash('message', 'Avatar updated successfully!');
     }
 
     public function removeAvatar(): void
@@ -92,7 +92,7 @@ class AvatarUpload extends Component
             $user->update(['avatar' => null]);
             $this->currentAvatar = null;
 
-            session()->flash('message', 'Аватар видалено!');
+            session()->flash('message', 'Avatar removed!');
         }
     }
 

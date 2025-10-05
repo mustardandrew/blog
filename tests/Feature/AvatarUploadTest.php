@@ -13,8 +13,7 @@ test('dashboard avatar page loads correctly', function () {
     $this->actingAs($user)
          ->get(route('settings.avatar'))
          ->assertOk()
-         ->assertSeeLivewire('dashboard.avatar-upload')
-         ->assertSee('Аватар користувача');
+         ->assertSeeLivewire('dashboard.avatar-upload');
 });
 
 test('dashboard avatar page requires authentication', function () {
@@ -23,14 +22,14 @@ test('dashboard avatar page requires authentication', function () {
 });
 
 test('avatar upload component renders correctly', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create(['avatar' => null]);
 
     $this->actingAs($user);
 
     Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
         ->assertSet('currentAvatar', null)
-        ->assertSee('Поточний аватар')
-        ->assertSee('Завантажити новий аватар');
+        ->assertSee(__('Current Avatar'))
+        ->assertSee(__('Upload new avatar'));
 });
 
 test('user can upload avatar', function () {

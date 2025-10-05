@@ -28,13 +28,13 @@
                 />
                 <div>
                     <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                        Welcome back!
+                        {{ __('Welcome back!') }}
                     </h1>
                     <p class="text-zinc-600 dark:text-zinc-400">
                         @if(auth()->user()->isAdmin())
-                            You're logged in as an Administrator
+                            {{ __("You're logged in as an Administrator") }}
                         @else
-                            You're logged in as a User
+                            {{ __("You're logged in as a User") }}
                         @endif
                     </p>
                 </div>
