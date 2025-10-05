@@ -21,7 +21,7 @@
     <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <livewire:components.user-avatar 
+                <livewire:components.user-avatar
                     :user="auth()->user()" 
                     size="xl" 
                     :show-name="true" 

@@ -15,6 +15,6 @@ class CategoryController extends Controller
             ->latest('published_at')
             ->paginate(12);
 
-        return view('categories.show', compact('category', 'posts'));
+        return view('pages.categories.show', compact('category', 'posts'));
     }
 }

@@ -1,8 +1,8 @@
 <x-layouts.app 
-    title="{{ page_title('blog', __('All posts')) }}"
-    description="{{ page_description('blog', __('Browse all posts')) }}"
-    keywords="{{ page_keywords('blog') ?? __('blog, posts') }}">
-    
+    metaTitle="{{ page_title('blog', __('All posts')) }}"
+    metaDescription="{{ page_description('blog', __('Browse all posts')) }}"
+    metaKeywords="{{ page_keywords('blog') ?? __('blog, posts') }}">
+
     @push('meta')
         <x-seo-meta page-key="blog" />
     @endpush

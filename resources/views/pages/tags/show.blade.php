@@ -4,9 +4,9 @@
 @endphp
 
 <x-layouts.app 
-    :title="$metaTitle"
-    :description="$metaDescription">
-    
+    :metaTitle="$metaTitle"
+    :metaDescription="$metaDescription">
+
     <div class="page-zone">
 
         @include('partials.breadcrumbs', ['breadcrumbs' => [

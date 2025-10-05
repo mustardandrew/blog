@@ -1,8 +1,8 @@
 <x-layouts.app 
-    title="{{ page_title('contact', 'Contact Us - Get In Touch') }}"
-    description="{{ page_description('contact', 'Have a question or want to get in touch? Send us a message and we\'ll get back to you as soon as possible.') }}"
-    keywords="{{ page_keywords('contact') }}">
-    
+    metaTitle="{{ page_title('contact', 'Contact Us - Get In Touch') }}"
+    metaDescription="{{ page_description('contact', 'Have a question or want to get in touch? Send us a message and we\'ll get back to you as soon as possible.') }}"
+    metaKeywords="{{ page_keywords('contact') }}">
+
     @push('meta')
         <x-seo-meta page-key="contact" />
     @endpush

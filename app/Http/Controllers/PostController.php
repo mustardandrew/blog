@@ -9,17 +9,6 @@ use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function home(): View
-    {
-        $posts = Post::with(['user', 'tags', 'categories'])
-            ->published()
-            ->latest('published_at')
-            ->limit(6)
-            ->get();
-
-        return view('welcome', compact('posts'));
-    }
-
     public function index(Request $request): View
     {
         $query = Post::with(['user', 'tags', 'categories'])
@@ -37,7 +26,7 @@ class PostController extends Controller
 
         $posts = $query->paginate(12);
 
-        return view('posts.index', compact('posts', 'search'));
+        return view('pages.posts.index', compact('posts', 'search'));
     }
 
     public function show(Post $post): View
@@ -50,6 +39,6 @@ class PostController extends Controller
         // Load relationships
         $post->load(['user', 'tags', 'categories']);
 
-        return view('posts.show', compact('post'));
+        return view('pages.posts.show', compact('post'));
     }
 }

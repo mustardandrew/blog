@@ -82,7 +82,7 @@
             </a>
 
             <!-- Avatar Upload -->
-            <a href="{{ route('dashboard.avatar') }}" 
+            <a href="{{ route('settings.avatar') }}" 
                wire:navigate
                class="flex items-center justify-center md:justify-start px-2 md:px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard.avatar') ? 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800' : 'text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800' }}"
                title="Аватар">

@@ -1,7 +1,7 @@
 <x-layouts.app 
-    title="{{ page_title('home') }}"
-    description="{{ page_description('home') }}"
-    keywords="{{ page_keywords('home') }}">
+    metaTitle="{{ page_title('home') }}"
+    metaDescription="{{ page_description('home') }}"
+    metaKeywords="{{ page_keywords('home') }}">
     
     @push('meta')
         <x-seo-meta page-key="home" />

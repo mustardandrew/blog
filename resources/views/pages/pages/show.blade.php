@@ -5,9 +5,9 @@
 @endphp
 
 <x-layouts.app 
-    :title="$metaTitle"
-    :description="$metaDescription"
-    :keywords="$metaKeywords">
+    :metaTitle="$metaTitle"
+    :metaDescription="$metaDescription"
+    :metaKeywords="$metaKeywords">
     
     <div class="page-zone">
 
