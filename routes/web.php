@@ -7,6 +7,7 @@ use Livewire\Volt\Volt;
 Route::get('/', [App\Http\Controllers\PostController::class, 'home'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    // User settings routes
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');
@@ -22,10 +23,19 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+});
+
+// Dashboard routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard home page
+    Route::view('/dashboard', 'dashboard.index')->name('dashboard');
 
     // Dashboard comments page
     Route::view('dashboard/comments', 'dashboard.comments')->name('dashboard.comments');
-    
+
+    // Dashboard bookmarks page
+    Route::view('/dashboard/bookmarks', 'dashboard.bookmarks')->name('dashboard.bookmarks');
+
     // Dashboard avatar page
     Route::view('dashboard/avatar', 'dashboard.avatar')->name('dashboard.avatar');
 });

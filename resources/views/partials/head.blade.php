@@ -1,14 +1,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>{{ $title ?? config('app.name') }}</title>
+<title>{{ $metaTitle ?? null }} - {{ config('app.name') }}</title>
 
-@if(isset($description))
-    <meta name="description" content="{{ $description }}" />
+@if(isset($metaDescription))
+    <meta name="description" content="{{ $metaDescription }}" />
 @endif
 
-@if(isset($keywords))
-    <meta name="keywords" content="{{ $keywords }}" />
+@if(isset($metaKeywords))
+    <meta name="keywords" content="{{ $metaKeywords }}" />
 @endif
 
 <link rel="icon" href="/favicon.ico" sizes="any">
