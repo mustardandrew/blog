@@ -11,15 +11,14 @@ test('dashboard avatar page loads correctly', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-         ->get(route('dashboard.avatar'))
+         ->get(route('settings.avatar'))
          ->assertOk()
          ->assertSeeLivewire('dashboard.avatar-upload')
-         ->assertSee('Поточний аватар')
-         ->assertSee('Завантажити новий аватар');
+         ->assertSee('Аватар користувача');
 });
 
 test('dashboard avatar page requires authentication', function () {
-    $this->get(route('dashboard.avatar'))
+    $this->get(route('settings.avatar'))
          ->assertRedirect(route('login'));
 });
 
@@ -44,7 +43,6 @@ test('user can upload avatar', function () {
 
     Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
         ->set('avatar', $file)
-        ->call('upload')
         ->assertHasNoErrors()
         ->assertSet('currentAvatar', function ($value) {
             return $value !== null && str_contains($value, 'avatars/');
@@ -124,7 +122,6 @@ test('uploading new avatar removes old one', function () {
 
     Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
         ->set('avatar', $newFile)
-        ->call('upload')
         ->assertHasNoErrors();
 
     $user->refresh();
@@ -137,7 +134,7 @@ test('avatar link appears in dashboard sidebar', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-         ->get(route('dashboard'))
+         ->get('/dashboard')
          ->assertSee('Аватар')
-         ->assertSee(route('dashboard.avatar'));
+         ->assertSee(route('settings.avatar'));
 });

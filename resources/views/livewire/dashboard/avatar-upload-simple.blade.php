@@ -19,7 +19,7 @@
     <div class="space-y-6">
         {{-- Header --}}
         <div>
-            <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Аватар користувача</h2>
+            <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Аватар користувача dssd</h2>
             <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                 Оновіть свій аватар або залиште поле порожнім для використання Gravatar
             </p>
@@ -69,7 +69,7 @@
             @endif
 
             {{-- Preview --}}
-            @if ($avatar && in_array($avatar->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+            @if ($avatar)
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <img 

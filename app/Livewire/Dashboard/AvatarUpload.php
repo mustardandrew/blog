@@ -12,14 +12,16 @@ class AvatarUpload extends Component
     use WithFileUploads;
 
     public $avatar;
-    public $currentAvatar;
+    public $user;
+    public $temporary_url = null;
+    public $uploading = false;
+    public $currentAvatar = null;
 
     protected $rules = [
-        'avatar' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:2048', // 2MB max
+        'avatar' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048', // 2MB max
     ];
 
     protected $messages = [
-        'avatar.required' => 'Оберіть файл для завантаження',
         'avatar.image' => 'Файл має бути зображенням',
         'avatar.mimes' => 'Дозволені формати: JPEG, JPG, PNG, GIF, WebP',
         'avatar.max' => 'Розмір файлу не може перевищувати 2 МБ',
@@ -30,13 +32,32 @@ class AvatarUpload extends Component
         $this->currentAvatar = Auth::user()->avatar;
     }
 
+    public function getAvatarUrlProperty(): string
+    {
+        return Auth::user()->getAvatarUrl();
+    }
+
     public function updatedAvatar(): void
     {
-        $this->validateOnly('avatar');
+        if ($this->avatar) {
+            $this->uploading = true;
+            $this->validateOnly('avatar');
+            if (!$this->getErrorBag()->has('avatar')) {
+                try {
+                    $this->upload();
+                } catch (\Exception $e) {
+                    $this->addError('avatar', 'Помилка при завантаженні файлу: ' . $e->getMessage());
+                } finally {
+                    $this->uploading = false;
+                }
+            } else {
+                $this->uploading = false;
+            }
+        }
     }
 
     public function upload(): void
-    {
+    {        
         $this->validate();
 
         $user = Auth::user();
@@ -55,6 +76,9 @@ class AvatarUpload extends Component
         // Update component state
         $this->currentAvatar = $avatarPath;
         $this->avatar = null;
+        $this->temporary_url = null;
+
+        $this->dispatch('avatar-updated');
 
         session()->flash('message', 'Аватар успішно оновлено!');
     }
