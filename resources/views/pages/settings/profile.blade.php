@@ -22,6 +22,7 @@
         'title' => __('Update profile'),
         'description' => __('Update your profile information'),
     ])
+    <x-separator />
 
     <!-- Livewire Update Profile Component -->
     <livewire:settings.update-profile />

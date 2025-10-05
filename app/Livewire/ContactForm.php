@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Contact;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\View\View;
 
 class ContactForm extends Component
 {
@@ -38,10 +39,10 @@ class ContactForm extends Component
         $this->submitted = true;
         $this->reset(['name', 'email', 'subject', 'message']);
 
-        session()->flash('contact_success', 'Thank you for your message! We\'ll get back to you soon.');
+        session()->flash('contact_success', __("Thank you for your message! We'll get back to you soon."));
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.contact-form');
     }

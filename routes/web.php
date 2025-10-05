@@ -58,5 +58,3 @@ Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])
 
 // Pages routes
 Route::get('/pages/{page:slug}', [App\Http\Controllers\PageController::class, 'show'])->name('pages.show');
-
-

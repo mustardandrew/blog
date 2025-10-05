@@ -3,46 +3,45 @@
 declare(strict_types=1);
 
 use App\Models\Contact;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 test('contact page loads successfully', function () {
     $response = $this->get(route('contact'));
 
     $response->assertOk()
-        ->assertViewIs('contact.index')
-        ->assertSee('Get In Touch')
-        ->assertSee('Send us a message');
+        ->assertViewIs('pages.contact.index')
+        ->assertSeeLivewire('contact-form');
 });
 
 test('contact form can be submitted with valid data', function () {
-    Volt::test('contact-form')
-        ->set('name', 'John Doe')
-        ->set('email', 'john@example.com')
-        ->set('subject', 'Test Subject')
-        ->set('message', 'This is a test message with more than 10 characters.')
+    Livewire::test('contact-form')
+        ->set('name', $name = 'John Doe')
+        ->set('email', $email = 'john@example.com')
+        ->set('subject', $subject = 'Test Subject')
+        ->set('message', $message = 'This is a test message with more than 10 characters.')
         ->call('submit')
         ->assertHasNoErrors()
         ->assertSet('submitted', true);
 
     $contact = Contact::latest()->first();
     expect($contact)->not->toBeNull();
-    expect($contact->name)->toBe('John Doe');
-    expect($contact->email)->toBe('john@example.com');
-    expect($contact->subject)->toBe('Test Subject');
-    expect($contact->message)->toBe('This is a test message with more than 10 characters.');
+    expect($contact->name)->toBe($name);
+    expect($contact->email)->toBe($email);
+    expect($contact->subject)->toBe($subject);
+    expect($contact->message)->toBe($message);
     expect($contact->ip_address)->not->toBeNull();
     expect($contact->user_agent)->not->toBeNull();
     expect($contact->is_read)->toBeFalse();
 });
 
 test('contact form validates required fields', function () {
-    Volt::test('contact-form')
+    Livewire::test('contact-form')
         ->call('submit')
         ->assertHasErrors(['name', 'email', 'subject', 'message']);
 });
 
 test('contact form validates email format', function () {
-    Volt::test('contact-form')
+    Livewire::test('contact-form')
         ->set('name', 'John Doe')
         ->set('email', 'invalid-email')
         ->set('subject', 'Test Subject')
@@ -52,7 +51,7 @@ test('contact form validates email format', function () {
 });
 
 test('contact form validates message minimum length', function () {
-    Volt::test('contact-form')
+    Livewire::test('contact-form')
         ->set('name', 'John Doe')
         ->set('email', 'john@example.com')
         ->set('subject', 'Test Subject')
@@ -62,7 +61,7 @@ test('contact form validates message minimum length', function () {
 });
 
 test('contact form shows success message after submission', function () {
-    $component = Volt::test('contact-form')
+    $component = Livewire::test('contact-form')
         ->set('name', 'John Doe')
         ->set('email', 'john@example.com')
         ->set('subject', 'Test Subject')
@@ -82,18 +81,18 @@ test('contact form shows success message after submission', function () {
 
 test('contact model has correct attributes', function () {
     $contact = Contact::factory()->create([
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'subject' => 'Test Subject',
-        'message' => 'Test message content',
+        'name' => $name = 'Test User',
+        'email' => $email = 'test@example.com',
+        'subject' => $subject = 'Test Subject',
+        'message' => $message = 'Test message content',
         'is_read' => false,
         'read_at' => null,
     ]);
 
-    expect($contact->name)->toBe('Test User');
-    expect($contact->email)->toBe('test@example.com');
-    expect($contact->subject)->toBe('Test Subject');
-    expect($contact->message)->toBe('Test message content');
+    expect($contact->name)->toBe($name);
+    expect($contact->email)->toBe($email);
+    expect($contact->subject)->toBe($subject);
+    expect($contact->message)->toBe($message);
     expect($contact->is_read)->toBeFalse();
     expect($contact->read_at)->toBeNull();
 });

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Settings;
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
