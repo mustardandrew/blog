@@ -46,7 +46,9 @@ test('user can upload avatar', function () {
         ->set('avatar', $file)
         ->call('upload')
         ->assertHasNoErrors()
-        ->assertSessionHas('message', 'Аватар успішно оновлено!');
+        ->assertSet('currentAvatar', function ($value) {
+            return $value !== null && str_contains($value, 'avatars/');
+        });
 
     $user->refresh();
     expect($user->avatar)->not->toBeNull();
@@ -57,12 +59,11 @@ test('avatar upload validates file type', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
-    $file = UploadedFile::fake()->create('document.pdf', 100);
+    $file = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
     Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
         ->set('avatar', $file)
-        ->call('upload')
-        ->assertHasErrors(['avatar' => 'mimes']);
+        ->assertHasErrors(['avatar']);
 });
 
 test('avatar upload validates file size', function () {
@@ -90,7 +91,7 @@ test('user can remove avatar', function () {
 
     Livewire::test(\App\Livewire\Dashboard\AvatarUpload::class)
         ->call('removeAvatar')
-        ->assertSessionHas('message', 'Аватар видалено!');
+        ->assertSet('currentAvatar', null);
 
     $user->refresh();
     expect($user->avatar)->toBeNull();

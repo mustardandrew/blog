@@ -3,56 +3,72 @@
     <div class="mb-8">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
-                <flux:heading size="lg" class="mb-3">Мої закладки</flux:heading>
+                <flux:heading size="lg" class="mb-3">
+                    {{ __('My Bookmarks') }}
+                </flux:heading>
                 <div class="grid grid-cols-3 gap-4 text-center lg:text-left">
                     <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
-                        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $stats['total'] }}</div>
-                        <div class="text-sm text-blue-600/70 dark:text-blue-400/70">Всього</div>
+                        <div class="text-center text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $stats['total'] }}</div>
+                        <div class="text-center text-sm text-blue-600/70 dark:text-blue-400/70">
+                            {{ __('Total') }}
+                        </div>
                     </div>
                     <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3">
-                        <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $stats['recent'] }}</div>
-                        <div class="text-sm text-green-600/70 dark:text-green-400/70">За тиждень</div>
+                        <div class="text-center text-2xl font-bold text-green-600 dark:text-green-400">{{ $stats['recent'] }}</div>
+                        <div class="text-center text-sm text-green-600/70 dark:text-green-400/70">
+                            {{ __('This Week') }}
+                        </div>
                     </div>
                     <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3">
-                        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ $stats['categories'] }}</div>
-                        <div class="text-sm text-purple-600/70 dark:text-purple-400/70">Категорій</div>
+                        <div class="text-center text-2xl font-bold text-purple-600 dark:text-purple-400">{{ $stats['categories'] }}</div>
+                        <div class="text-center text-sm text-purple-600/70 dark:text-purple-400/70">
+                            {{ __('Categories') }}
+                        </div>
                     </div>
                 </div>
             </div>
             
             <!-- Sort Controls -->
             <div class="flex items-center gap-2">
-                <flux:text class="text-sm text-zinc-600 dark:text-zinc-400">Сортувати:</flux:text>
+                <flux:text class="text-sm text-zinc-600 dark:text-zinc-400">
+                    {{ __('Sort by:') }}
+                </flux:text>
                 <div class="flex gap-1">
                     <flux:button 
                         size="sm" 
                         variant="{{ $sortBy === 'created_at' ? 'primary' : 'subtle' }}"
-                        wire:click="sortBy('created_at')"
+                        wire:click="runSortBy('created_at')"
                     >
-                        Дата додавання
-                        @if($sortBy === 'created_at')
-                            <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
-                        @endif
+                        <span class="flex items-center">
+                            @if($sortBy === 'created_at')
+                                <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
+                            @endif
+                            {{ __('Data added') }}
+                        </span>
                     </flux:button>
                     <flux:button 
                         size="sm" 
                         variant="{{ $sortBy === 'title' ? 'primary' : 'subtle' }}"
-                        wire:click="sortBy('title')"
+                        wire:click="runSortBy('title')"
                     >
-                        Назва
-                        @if($sortBy === 'title')
-                            <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
-                        @endif
+                        <span class="flex items-center">
+                            @if($sortBy === 'title')
+                                <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
+                            @endif
+                            {{ __('Title') }}
+                        </span>
                     </flux:button>
                     <flux:button 
                         size="sm" 
                         variant="{{ $sortBy === 'published_at' ? 'primary' : 'subtle' }}"
-                        wire:click="sortBy('published_at')"
+                        wire:click="runSortBy('published_at')"
                     >
-                        Дата публікації
-                        @if($sortBy === 'published_at')
-                            <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
-                        @endif
+                        <span class="flex items-center">
+                            @if($sortBy === 'published_at')
+                                <flux:icon name="{{ $sortDirection === 'asc' ? 'arrow-up' : 'arrow-down' }}" class="w-3 h-3 ml-1" />
+                            @endif
+                            {{ __('Published at') }}
+                        </span>
                     </flux:button>
                 </div>
             </div>

@@ -91,7 +91,7 @@ class Bookmarks extends Component
         $this->resetPage();
     }
 
-    public function sortBy(string $column): void
+    public function runSortBy(string $column): void
     {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
