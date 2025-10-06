@@ -21,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('partials.header', HeaderComposer::class);
+        View::composer(
+            [
+                'partials.header',
+                'partials.mobile-sidebar',
+            ], 
+            HeaderComposer::class
+        );
     }
 }
