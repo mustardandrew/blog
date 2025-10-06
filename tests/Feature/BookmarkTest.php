@@ -186,12 +186,12 @@ test('dashboard bookmarks sorting works', function () {
 
     // Test title sorting
     $component = Livewire::test('dashboard.bookmarks')
-        ->call('sortBy', 'title')
+        ->call('runSortBy', 'title')
         ->assertSet('sortBy', 'title')
         ->assertSet('sortDirection', 'asc');
 
     // Test direction toggle
-    $component->call('sortBy', 'title')
+    $component->call('runSortBy', 'title')
         ->assertSet('sortDirection', 'desc');
 });
 
