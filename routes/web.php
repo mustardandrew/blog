@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
-use Livewire\Volt\Volt;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
@@ -33,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('settings/password', 'pages.settings.password')->name('password.edit');
 
     // Two-Factor Authentication settings page
-    Volt::route('settings/two-factor', 'settings.two-factor')
+    Route::view('settings/two-factor', 'pages.settings.two-factor')
         ->middleware(
             when(
                 Features::canManageTwoFactorAuthentication()
