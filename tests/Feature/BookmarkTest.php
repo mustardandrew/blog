@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Models\{Bookmark, Post, User};
 use Livewire\Livewire;
-use Livewire\Volt\Volt;
 
 test('user can bookmark a post', function () {
     $user = User::factory()->create();
@@ -150,7 +149,7 @@ test('dashboard bookmarks page loads correctly', function () {
     Bookmark::create(['user_id' => $user->id, 'post_id' => $posts[0]->id]);
     Bookmark::create(['user_id' => $user->id, 'post_id' => $posts[1]->id]);
 
-    Volt::test('dashboard.bookmarks')
+    Livewire::test('dashboard.bookmarks')
         ->assertSee($posts[0]->title)
         ->assertSee($posts[1]->title)
         ->assertDontSee($posts[2]->title);
@@ -167,7 +166,7 @@ test('dashboard bookmarks search works', function () {
     Bookmark::create(['user_id' => $user->id, 'post_id' => $post1->id]);
     Bookmark::create(['user_id' => $user->id, 'post_id' => $post2->id]);
 
-    Volt::test('dashboard.bookmarks')
+    Livewire::test('dashboard.bookmarks')
         ->set('search', 'Laravel')
         ->assertSee('Laravel Development')
         ->assertDontSee('Vue.js Framework');
@@ -186,7 +185,7 @@ test('dashboard bookmarks sorting works', function () {
     Bookmark::create(['user_id' => $user->id, 'post_id' => $post2->id]);
 
     // Test title sorting
-    $component = Volt::test('dashboard.bookmarks')
+    $component = Livewire::test('dashboard.bookmarks')
         ->call('sortBy', 'title')
         ->assertSet('sortBy', 'title')
         ->assertSet('sortDirection', 'asc');
@@ -206,7 +205,7 @@ test('removing bookmark from dashboard works', function () {
 
     expect(Bookmark::count())->toBe(1);
 
-    Volt::test('dashboard.bookmarks')
+    Livewire::test('dashboard.bookmarks')
         ->call('removeBookmark', $post->id);
 
     expect(Bookmark::count())->toBe(0);

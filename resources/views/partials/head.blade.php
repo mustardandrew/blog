@@ -1,7 +1,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>{{ $metaTitle ?? null }} - {{ config('app.name') }}</title>
+<title>{{ $metaTitle ?? $title ?? null }} - {{ config('app.name') }}</title>
 
 @if(isset($metaDescription))
     <meta name="description" content="{{ $metaDescription }}" />

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
@@ -15,7 +15,7 @@ test('user avatar component renders correctly', function () {
         'avatar' => 'avatars/test-avatar.jpg',
     ]);
 
-    Volt::test('components.user-avatar', ['user' => $user])
+    Livewire::test('components.user-avatar', ['user' => $user])
         ->assertSee('John Doe')
         ->assertSee('test-avatar.jpg')
         ->assertSeeHtml('alt="John Doe\'s avatar"');
@@ -24,10 +24,10 @@ test('user avatar component renders correctly', function () {
 test('user avatar component works with different sizes', function () {
     $user = User::factory()->create();
 
-    Volt::test('components.user-avatar', ['user' => $user, 'size' => 'lg'])
+    Livewire::test('components.user-avatar', ['user' => $user, 'size' => 'lg'])
         ->assertSeeHtml('w-12 h-12');
 
-    Volt::test('components.user-avatar', ['user' => $user, 'size' => 'sm'])
+    Livewire::test('components.user-avatar', ['user' => $user, 'size' => 'sm'])
         ->assertSeeHtml('w-8 h-8');
 });
 
@@ -37,7 +37,7 @@ test('user avatar component shows name when requested', function () {
         'email' => 'jane@example.com',
     ]);
 
-    Volt::test('components.user-avatar', ['user' => $user, 'showName' => true])
+    Livewire::test('components.user-avatar', ['user' => $user, 'showName' => true])
         ->assertSee('Jane Smith')
         ->assertSee('jane@example.com');
 });
@@ -48,7 +48,7 @@ test('user avatar component hides name by default', function () {
         'email' => 'hidden@example.com',
     ]);
 
-    $component = Volt::test('components.user-avatar', ['user' => $user]);
+    $component = Livewire::test('components.user-avatar', ['user' => $user]);
     
     // Перевіряємо, що ім'я не відображається як текст (не в alt атрибуті)
     expect($component->html())
@@ -62,6 +62,6 @@ test('user avatar uses gravatar when no avatar uploaded', function () {
         'avatar' => null,
     ]);
 
-    Volt::test('components.user-avatar', ['user' => $user])
+    Livewire::test('components.user-avatar', ['user' => $user])
         ->assertSeeHtml('gravatar.com');
 });

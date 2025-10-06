@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\{Post, User};
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -23,7 +23,7 @@ beforeEach(function () {
 });
 
 test('search panel shows keyboard navigation hints', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->set('query', 'Laravel')
         ->assertSee('Laravel Tutorial')
@@ -31,7 +31,7 @@ test('search panel shows keyboard navigation hints', function () {
 });
 
 test('search panel has proper Alpine.js data structure', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->assertSeeHtml('selectedIndex: -1')
         ->assertSeeHtml('selectNext()')
@@ -40,7 +40,7 @@ test('search panel has proper Alpine.js data structure', function () {
 });
 
 test('search results have correct index attributes', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->set('query', 'Tutorial')
         ->assertSeeHtml('data-result-index="0"')
@@ -49,7 +49,7 @@ test('search results have correct index attributes', function () {
 });
 
 test('search panel keyboard events are properly bound', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->assertSeeHtml('@keydown.arrow-down.prevent="selectNext()"')
         ->assertSeeHtml('@keydown.arrow-up.prevent="selectPrevious()"')
@@ -59,14 +59,14 @@ test('search panel keyboard events are properly bound', function () {
 });
 
 test('search results have selection highlighting classes', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->set('query', 'Laravel')
         ->assertSeeHtml("'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800': selectedIndex === 0");
 });
 
 test('search panel has results container reference', function () {
-    Volt::test('search-panel')
+    Livewire::test('search-panel')
         ->set('isOpen', true)
         ->assertSeeHtml('x-ref="resultsContainer"');
 });

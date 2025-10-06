@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Laravel\Fortify\Features;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 test('two factor challenge redirects to login when not authenticated', function () {
     if (! Features::canManageTwoFactorAuthentication()) {
@@ -32,7 +32,7 @@ test('two factor challenge can be rendered', function () {
         'two_factor_confirmed_at' => now(),
     ])->save();
 
-    Volt::test('auth.login')
+    Livewire::test('auth.login')
         ->set('email', $user->email)
         ->set('password', 'password')
         ->call('login')
